@@ -3,6 +3,9 @@
 [file-issues]: https://github.com/sommerfeld-io/tech-radar/issues
 [project-board]: https://github.com/orgs/sommerfeld-io/projects/1/views/1
 
+> [!NOTE]
+> The tech radar implementation (visualization, build scripts, and HTML/CSS/JS) is AI-generated. The only manual input is the data in `radar/radar.yml`, which defines the technologies, quadrants, and rings displayed in the radar.
+
 This repository contains the technology radar for the [Sommerfeld.io](https://github.com/sommerfeld-io) GitHub organization. It provides an overview of technologies, tools, frameworks, and practices we use, assess, or have on our radar for future consideration.
 
 - [Where to file issues][file-issues]
