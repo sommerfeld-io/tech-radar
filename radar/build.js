@@ -27,13 +27,19 @@ function transformToRadarFormat(radarData) {
   });
 
   // Transform technologies
-  const entries = radarData.technologies.map((tech) => ({
-    label: tech.name,
-    quadrant: quadrantMap[tech.quadrant] !== undefined ? quadrantMap[tech.quadrant] : 0,
-    ring: ringMap[tech.ring] !== undefined ? ringMap[tech.ring] : 0,
-    moved: 0,
-    link: `#${tech.name.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '')}`
-  }));
+  const entries = radarData.technologies.map((tech) => {
+    let movedValue = 0;
+    if (tech.moved === 'in') movedValue = 1;
+    else if (tech.moved === 'out') movedValue = -1;
+    
+    return {
+      label: tech.name,
+      quadrant: quadrantMap[tech.quadrant] !== undefined ? quadrantMap[tech.quadrant] : 0,
+      ring: ringMap[tech.ring] !== undefined ? ringMap[tech.ring] : 0,
+      moved: movedValue,
+      link: `#${tech.name.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '')}`
+    };
+  });
 
   return {
     title: radarData.title,

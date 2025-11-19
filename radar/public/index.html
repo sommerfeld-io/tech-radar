@@ -364,6 +364,27 @@
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
+                // Draw movement indicator if applicable
+                if (entry.moved !== 0) {
+                    const triangleSize = 6;
+                    const triangleOffset = 16;
+                    ctx.fillStyle = entry.moved > 0 ? '#4CAF50' : '#F44336';
+                    ctx.beginPath();
+                    if (entry.moved > 0) {
+                        // Triangle pointing up (moved in)
+                        ctx.moveTo(x, y - triangleOffset);
+                        ctx.lineTo(x - triangleSize, y - triangleOffset + triangleSize);
+                        ctx.lineTo(x + triangleSize, y - triangleOffset + triangleSize);
+                    } else {
+                        // Triangle pointing down (moved out)
+                        ctx.moveTo(x, y + triangleOffset);
+                        ctx.lineTo(x - triangleSize, y + triangleOffset - triangleSize);
+                        ctx.lineTo(x + triangleSize, y + triangleOffset - triangleSize);
+                    }
+                    ctx.closePath();
+                    ctx.fill();
+                }
+
                 // Draw number inside blip
                 ctx.fillStyle = 'white';
                 ctx.font = 'bold 12px sans-serif';
@@ -471,6 +492,12 @@
             sortedEntries.forEach(entry => {
                 const ring = radarData.rings[entry.ring];
                 const quadrant = radarData.quadrants[entry.quadrant];
+                let movementIndicator = '';
+                if (entry.moved > 0) {
+                    movementIndicator = '<span style="color: #4CAF50; font-weight: bold; margin-left: 8px;" title="Moved in">▲</span>';
+                } else if (entry.moved < 0) {
+                    movementIndicator = '<span style="color: #F44336; font-weight: bold; margin-left: 8px;" title="Moved out">▼</span>';
+                }
                 html += `
                     <div class="tech-item" data-index="${entry.index}" 
                          style="border-left-color: ${quadrant.color};"
@@ -478,7 +505,7 @@
                          onmouseleave="renderRadar()">
                         <h4>
                             <span class="tech-number" style="background: ${quadrant.color};">${entry.index + 1}</span>
-                            ${entry.label}
+                            ${entry.label}${movementIndicator}
                         </h4>
                         <div class="tech-item-meta">
                             ${quadrant.name} • ${ring.name}

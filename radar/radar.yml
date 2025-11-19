@@ -13,7 +13,7 @@ quadrants:
     color: "#6fa8dc"
   - name: "Platforms"
     color: "#93c47d"
-  - name: "Techniques"
+  - name: "Methodologies"
     color: "#f6b26b"
 
 rings:
@@ -37,6 +37,7 @@ technologies:
   - name: "Python"
     quadrant: "Languages"
     ring: "Trial"
+    moved: "in"
   - name: "Docker"
     quadrant: "Platforms"
     ring: "Adopt"
@@ -55,3 +56,4 @@ technologies:
   - name: "MkDocs"
     quadrant: "Tools"
     ring: "Trial"
+    moved: "out"

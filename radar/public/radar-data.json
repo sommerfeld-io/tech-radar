@@ -16,7 +16,7 @@
       "color": "#93c47d"
     },
     {
-      "name": "Techniques",
+      "name": "Methodologies",
       "color": "#f6b26b"
     }
   ],
@@ -54,7 +54,7 @@
       "label": "Python",
       "quadrant": 0,
       "ring": 1,
-      "moved": 0,
+      "moved": 1,
       "link": "#python"
     },
     {
@@ -96,7 +96,7 @@
       "label": "MkDocs",
       "quadrant": 1,
       "ring": 1,
-      "moved": 0,
+      "moved": -1,
       "link": "#mkdocs"
     }
   ]
