@@ -1,0 +1,68 @@
+{
+  "entries": [
+    {
+      "label": "Bash",
+      "quadrant": 0,
+      "ring": 0,
+      "moved": 0,
+      "link": "#bash",
+      "description": "Bash scripting is widely used for automation tasks and infrastructure scripts.\n\n**Key Benefits:**\n- Universal availability on Unix-like systems\n- Good for system automation and DevOps tasks\n- Easy integration with command-line tools\n\n**Usage:**\n- CI/CD pipeline scripts\n- Local development automation\n- System administration tasks\n"
+    },
+    {
+      "label": "Docker",
+      "quadrant": 2,
+      "ring": 0,
+      "moved": 0,
+      "link": "#docker",
+      "description": "Docker is our primary container platform for packaging and deploying applications.\nWe use it extensively across all projects for consistent development and production environments.\n\n**Key Benefits:**\n- Ensures consistency across different environments\n- Simplifies dependency management\n- Enables easy scaling and orchestration\n\n**Usage:**\n- Development environments via docker-compose\n- CI/CD pipelines for building and testing\n- Production deployments\n"
+    },
+    {
+      "label": "GitHub Actions",
+      "quadrant": 2,
+      "ring": 0,
+      "moved": 0,
+      "link": "#github-actions",
+      "description": "GitHub Actions is our standard CI/CD platform for all sommerfeld.io projects.\n\n**Key Benefits:**\n- Native integration with GitHub repositories\n- Extensive marketplace of ready-to-use actions\n- Good support for matrix builds and workflows\n\n**Usage:**\n- Running linters and tests\n- Building and pushing Docker images\n- Automated releases with semantic-release\n- Scheduled tasks and housekeeping\n"
+    },
+    {
+      "label": "MkDocs",
+      "quadrant": 1,
+      "ring": 1,
+      "moved": 0,
+      "link": "#mkdocs",
+      "description": "MkDocs is being evaluated as our documentation platform, using Material theme.\n\n**Key Benefits:**\n- Simple markdown-based documentation\n- Beautiful Material Design theme\n- Easy to deploy to GitHub Pages\n\n**Status:**\nCurrently testing across projects to determine if it meets our documentation needs.\n"
+    },
+    {
+      "label": "Python",
+      "quadrant": 0,
+      "ring": 1,
+      "moved": 0,
+      "link": "#python",
+      "description": "Python is used for automation scripts and tooling where Bash is insufficient.\n\n**Key Benefits:**\n- Rich ecosystem of libraries\n- Good for complex automation tasks\n- Better error handling than Bash\n\n**Status:**\nCurrently used in select projects, evaluating for broader adoption.\n"
+    },
+    {
+      "label": "semantic-release",
+      "quadrant": 1,
+      "ring": 0,
+      "moved": 0,
+      "link": "#semantic-release",
+      "description": "semantic-release automates version management and package publishing based\non conventional commits.\n\n**Key Benefits:**\n- Automated versioning based on commit messages\n- Generates changelogs automatically\n- Ensures consistent release process\n\n**Usage:**\n- Version bumping in CI/CD\n- Changelog generation\n- GitHub release creation\n"
+    },
+    {
+      "label": "Taskfile (Task)",
+      "quadrant": 1,
+      "ring": 0,
+      "moved": 0,
+      "link": "#taskfile-(task)",
+      "description": "Task is our standard task runner, replacing Make with a more modern and user-friendly approach.\n\n**Key Benefits:**\n- Simple YAML syntax\n- Cross-platform compatibility\n- Built-in features like variables and includes\n- Better error handling than Make\n\n**Usage:**\n- Project build automation\n- Development workflows\n- Standardized across all repositories\n"
+    },
+    {
+      "label": "yamllint",
+      "quadrant": 1,
+      "ring": 0,
+      "moved": 0,
+      "link": "#yamllint",
+      "description": "yamllint is our standard linter for YAML files, ensuring consistency and catching syntax errors.\n\n**Key Benefits:**\n- Catches YAML syntax errors early\n- Enforces consistent formatting\n- Integrates well with CI/CD pipelines\n\n**Usage:**\n- Pre-commit hooks\n- CI/CD pipeline validation\n- Local development checks\n"
+    }
+  ]
+}

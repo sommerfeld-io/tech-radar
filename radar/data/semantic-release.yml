@@ -1,0 +1,17 @@
+---
+name: "semantic-release"
+quadrant: "Tools"
+ring: "Adopt"
+description: |
+  semantic-release automates version management and package publishing based
+  on conventional commits.
+
+  **Key Benefits:**
+  - Automated versioning based on commit messages
+  - Generates changelogs automatically
+  - Ensures consistent release process
+
+  **Usage:**
+  - Version bumping in CI/CD
+  - Changelog generation
+  - GitHub release creation

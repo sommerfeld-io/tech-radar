@@ -13,3 +13,6 @@ node_modules
 /dist
 
 .task/remote
+
+# Keep radar/public files for GitHub Pages
+!radar/public/

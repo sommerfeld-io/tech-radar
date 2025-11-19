@@ -1,0 +1,16 @@
+---
+name: "Bash"
+quadrant: "Languages"
+ring: "Adopt"
+description: |
+  Bash scripting is widely used for automation tasks and infrastructure scripts.
+
+  **Key Benefits:**
+  - Universal availability on Unix-like systems
+  - Good for system automation and DevOps tasks
+  - Easy integration with command-line tools
+
+  **Usage:**
+  - CI/CD pipeline scripts
+  - Local development automation
+  - System administration tasks
