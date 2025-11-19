@@ -124,28 +124,80 @@
             gap: 1rem;
         }
 
+        .tech-quadrant {
+            margin-bottom: 2rem;
+        }
+
+        .tech-quadrant h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+
         .tech-item {
             padding: 1rem;
             background: #f9f9f9;
             border-radius: 6px;
             border-left: 4px solid #667eea;
             transition: all 0.2s ease;
+            cursor: pointer;
         }
 
         .tech-item:hover {
             transform: translateX(5px);
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            background: #e8eaf6;
         }
 
-        .tech-item h3 {
+        .tech-item.highlight {
+            background: #e8eaf6;
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tech-item h4 {
             font-size: 1rem;
             margin-bottom: 0.5rem;
             color: #333;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tech-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: #667eea;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.85rem;
         }
 
         .tech-item-meta {
             font-size: 0.85rem;
             color: #666;
+        }
+
+        .copyright {
+            text-align: center;
+            padding: 2rem 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .copyright a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .copyright a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -165,12 +217,17 @@
 
         <div class="technology-list">
             <h2>All Technologies</h2>
-            <div id="tech-list" class="tech-grid"></div>
+            <div id="tech-list"></div>
+        </div>
+
+        <div class="copyright">
+            Copyright © sommerfeld.io | <a href="https://github.com/sommerfeld-io" target="_blank">Sommerfeld.io on GitHub</a>
         </div>
     </div>
 
     <script>
         let radarData = null;
+        let blipPositions = [];
 
         // Load data
         fetch('radar-data.json')
@@ -236,6 +293,7 @@
 
             // Clear canvas
             ctx.clearRect(0, 0, width, height);
+            blipPositions = [];
 
             // Draw rings
             const ringCount = radarData.rings.length;
@@ -290,7 +348,7 @@
                 ctx.fillText(quadrant.name, quadrantPositions[i].x, quadrantPositions[i].y);
             });
 
-            // Plot blips
+            // Plot blips with numbers
             radarData.entries.forEach((entry, index) => {
                 const angle = getBlipAngle(entry.quadrant);
                 const radius = getBlipRadius(entry.ring, maxRadius, ringCount);
@@ -298,21 +356,69 @@
                 const x = centerX + radius * Math.cos(angle);
                 const y = centerY + radius * Math.sin(angle);
 
-                // Draw blip
+                // Store blip position for hover detection
+                blipPositions.push({ x, y, index, radius: 12 });
+
+                // Draw blip circle
                 const quadrant = radarData.quadrants[entry.quadrant];
                 ctx.beginPath();
-                ctx.arc(x, y, 8, 0, 2 * Math.PI);
+                ctx.arc(x, y, 12, 0, 2 * Math.PI);
                 ctx.fillStyle = quadrant.color;
                 ctx.fill();
                 ctx.strokeStyle = 'white';
                 ctx.lineWidth = 2;
                 ctx.stroke();
 
-                // Draw label
-                ctx.fillStyle = '#333';
-                ctx.font = 'bold 11px sans-serif';
+                // Draw number inside blip
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 12px sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillText(entry.label, x, y - 12);
+                ctx.textBaseline = 'middle';
+                ctx.fillText(index + 1, x, y);
+            });
+
+            // Add canvas hover event
+            canvas.addEventListener('mousemove', handleCanvasHover);
+            canvas.addEventListener('mouseleave', clearHoverHighlight);
+        }
+
+        function handleCanvasHover(event) {
+            const canvas = event.target;
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            // Check if hovering over any blip
+            let hoveredIndex = -1;
+            for (const blip of blipPositions) {
+                const distance = Math.sqrt(Math.pow(x - blip.x, 2) + Math.pow(y - blip.y, 2));
+                if (distance <= blip.radius) {
+                    hoveredIndex = blip.index;
+                    break;
+                }
+            }
+
+            // Clear all highlights
+            document.querySelectorAll('.tech-item').forEach(item => {
+                item.classList.remove('highlight');
+            });
+
+            // Highlight corresponding tech item if hovering over a blip
+            if (hoveredIndex >= 0) {
+                canvas.style.cursor = 'pointer';
+                const techItem = document.querySelector(`[data-index="${hoveredIndex}"]`);
+                if (techItem) {
+                    techItem.classList.add('highlight');
+                    techItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            } else {
+                canvas.style.cursor = 'default';
+            }
+        }
+
+        function clearHoverHighlight() {
+            document.querySelectorAll('.tech-item').forEach(item => {
+                item.classList.remove('highlight');
             });
         }
 
@@ -335,33 +441,68 @@
             return minRadius + Math.random() * (maxRingRadius - minRadius);
         }
 
+        function highlightBlip(index) {
+            // Redraw radar with highlighted blip
+            const canvas = document.getElementById('radar-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Redraw the entire radar
+            renderRadar();
+            
+            // Then draw a highlight ring around the selected blip
+            const blip = blipPositions[index];
+            if (blip) {
+                ctx.beginPath();
+                ctx.arc(blip.x, blip.y, 16, 0, 2 * Math.PI);
+                ctx.strokeStyle = '#667eea';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+            }
+        }
+
         function renderTechnologyList() {
             const container = document.getElementById('tech-list');
             
-            // Group by ring
-            const byRing = {};
-            radarData.entries.forEach(entry => {
-                const ring = radarData.rings[entry.ring].name;
-                if (!byRing[ring]) byRing[ring] = [];
-                byRing[ring].push(entry);
+            // Group by quadrant
+            const byQuadrant = {};
+            radarData.entries.forEach((entry, index) => {
+                const quadrant = radarData.quadrants[entry.quadrant].name;
+                if (!byQuadrant[quadrant]) byQuadrant[quadrant] = [];
+                byQuadrant[quadrant].push({ ...entry, index });
             });
 
-            // Sort rings by their order in the data
+            // Generate HTML grouped by quadrants
             let html = '';
-            radarData.rings.forEach(ring => {
-                if (byRing[ring.name]) {
-                    byRing[ring.name].sort((a, b) => a.label.localeCompare(b.label));
-                    byRing[ring.name].forEach(entry => {
-                        const quadrant = radarData.quadrants[entry.quadrant];
+            radarData.quadrants.forEach(quadrant => {
+                if (byQuadrant[quadrant.name]) {
+                    html += `<div class="tech-quadrant">`;
+                    html += `<h3>${quadrant.name}</h3>`;
+                    html += `<div class="tech-grid">`;
+                    
+                    // Sort by ring, then by name
+                    byQuadrant[quadrant.name].sort((a, b) => {
+                        if (a.ring !== b.ring) return a.ring - b.ring;
+                        return a.label.localeCompare(b.label);
+                    });
+                    
+                    byQuadrant[quadrant.name].forEach(entry => {
+                        const ring = radarData.rings[entry.ring];
                         html += `
-                            <div class="tech-item">
-                                <h3>${entry.label}</h3>
+                            <div class="tech-item" data-index="${entry.index}" 
+                                 onmouseenter="highlightBlip(${entry.index})" 
+                                 onmouseleave="renderRadar()">
+                                <h4>
+                                    <span class="tech-number">${entry.index + 1}</span>
+                                    ${entry.label}
+                                </h4>
                                 <div class="tech-item-meta">
-                                    ${quadrant.name} • ${ring.name}
+                                    ${ring.name}
                                 </div>
                             </div>
                         `;
                     });
+                    
+                    html += `</div></div>`;
                 }
             });
             
