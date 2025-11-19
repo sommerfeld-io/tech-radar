@@ -97,11 +97,25 @@ npm install
 # Build the radar data
 npm run build:radar
 
-# Open the radar in your browser
-open radar/public/index.html
+# Serve the radar locally (starts server on http://localhost:8080)
+npm run serve:radar
 ```
 
 ## Viewing the Radar
+
+### Option 1: Local Web Server (Recommended)
+
+```bash
+# Start the local server
+npm run serve:radar
+
+# Or using task
+task radar:open
+```
+
+Then open http://localhost:8080 in your browser.
+
+### Option 2: Direct File Access
 
 Simply open `radar/public/index.html` in any modern web browser. The radar is completely static and works offline once built.
 
@@ -110,11 +124,15 @@ Simply open `radar/public/index.html` in any modern web browser. The radar is co
 The radar build can be integrated into your existing workflow:
 
 ```bash
-# Using task (if integrated)
+# Build the radar
 task radar:build
+
+# Build and serve the radar
+task radar:open
 
 # Or directly with npm
 npm run build:radar
+npm run serve:radar
 ```
 
 ## Hosting

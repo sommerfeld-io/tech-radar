@@ -24,17 +24,18 @@ Open the radar directly from the repository: [View Tech Radar](radar/public/inde
 git clone https://github.com/sommerfeld-io/tech-radar.git
 cd tech-radar
 
-# Build the radar
+# Install dependencies and build the radar
 npm install
 npm run build:radar
 
-# Open in browser
-open radar/public/index.html
+# Start local web server
+npm run serve:radar
+# Then open http://localhost:8080 in your browser
 ```
 
 ### Using Task
 ```bash
-# Build and open the radar
+# Build and serve the radar (starts server on http://localhost:8080)
 task radar:open
 
 # Or just build

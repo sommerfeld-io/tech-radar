@@ -72,18 +72,11 @@ tasks:
       - npm run build:radar
 
   radar:open:
-    desc: 'Build and open the tech radar in the default browser'
+    desc: 'Build and serve the tech radar on http://localhost:8080'
     cmds:
       - task: radar:build
-      - echo "Opening tech radar..."
-      - |
-        if command -v xdg-open > /dev/null; then
-          xdg-open radar/public/index.html
-        elif command -v open > /dev/null; then
-          open radar/public/index.html
-        else
-          echo "Please open radar/public/index.html in your browser"
-        fi
+      - echo "Starting web server on http://localhost:8080"
+      - npm run serve:radar
 
   # ===============================================================================================
 
