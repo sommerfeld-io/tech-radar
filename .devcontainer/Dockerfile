@@ -1,6 +1,9 @@
 FROM sommerfeldio/devcontainer:0.12.0
 LABEL maintainer="sebastian@sommerfeld.io"
 
+# Switch to root to install Node.js
+USER root
+
 # Install Node.js (LTS version)
 # hadolint ignore=DL3008,DL3015
 RUN apt-get update && \
@@ -16,3 +19,6 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends nodejs && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Switch back to the default user
+USER vscode
