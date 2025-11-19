@@ -124,17 +124,7 @@
             gap: 1rem;
         }
 
-        .tech-quadrant {
-            margin-bottom: 2rem;
-        }
 
-        .tech-quadrant h3 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: #667eea;
-            border-bottom: 2px solid #667eea;
-            padding-bottom: 0.5rem;
-        }
 
         .tech-item {
             padding: 1rem;
@@ -199,11 +189,16 @@
         .copyright a:hover {
             text-decoration: underline;
         }
+
+        .org-link {
+            display: inline-block;
+            margin-left: 0.5rem;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1 id="radar-title">🎯 Tech Radar</h1>
+        <h1 id="radar-title">Tech Radar</h1>
         <p id="radar-description">Loading...</p>
         <div class="version" id="radar-version"></div>
     </div>
@@ -221,7 +216,7 @@
         </div>
 
         <div class="copyright">
-            Copyright © sommerfeld.io | <a href="https://github.com/sommerfeld-io" target="_blank">Sommerfeld.io on GitHub</a>
+            Copyright © sommerfeld.io | <a href="https://github.com/sommerfeld-io" target="_blank">Sommerfeld.io on GitHub</a><span class="org-link">| <a href="https://github.com/sommerfeld-io" target="_blank">GitHub Organization</a></span>
         </div>
     </div>
 
@@ -246,7 +241,7 @@
             });
 
         function updateHeader() {
-            document.getElementById('radar-title').textContent = '🎯 ' + radarData.title;
+            document.getElementById('radar-title').textContent = radarData.title;
             document.getElementById('radar-description').textContent = radarData.description.trim();
             document.getElementById('radar-version').textContent = 'Version ' + radarData.version;
         }
@@ -463,48 +458,35 @@
         function renderTechnologyList() {
             const container = document.getElementById('tech-list');
             
-            // Group by quadrant
-            const byQuadrant = {};
-            radarData.entries.forEach((entry, index) => {
-                const quadrant = radarData.quadrants[entry.quadrant].name;
-                if (!byQuadrant[quadrant]) byQuadrant[quadrant] = [];
-                byQuadrant[quadrant].push({ ...entry, index });
-            });
+            // Sort all entries by ring, then by name
+            const sortedEntries = radarData.entries
+                .map((entry, index) => ({ ...entry, index }))
+                .sort((a, b) => {
+                    if (a.ring !== b.ring) return a.ring - b.ring;
+                    return a.label.localeCompare(b.label);
+                });
 
-            // Generate HTML grouped by quadrants
-            let html = '';
-            radarData.quadrants.forEach(quadrant => {
-                if (byQuadrant[quadrant.name]) {
-                    html += `<div class="tech-quadrant">`;
-                    html += `<h3>${quadrant.name}</h3>`;
-                    html += `<div class="tech-grid">`;
-                    
-                    // Sort by ring, then by name
-                    byQuadrant[quadrant.name].sort((a, b) => {
-                        if (a.ring !== b.ring) return a.ring - b.ring;
-                        return a.label.localeCompare(b.label);
-                    });
-                    
-                    byQuadrant[quadrant.name].forEach(entry => {
-                        const ring = radarData.rings[entry.ring];
-                        html += `
-                            <div class="tech-item" data-index="${entry.index}" 
-                                 onmouseenter="highlightBlip(${entry.index})" 
-                                 onmouseleave="renderRadar()">
-                                <h4>
-                                    <span class="tech-number">${entry.index + 1}</span>
-                                    ${entry.label}
-                                </h4>
-                                <div class="tech-item-meta">
-                                    ${ring.name}
-                                </div>
-                            </div>
-                        `;
-                    });
-                    
-                    html += `</div></div>`;
-                }
+            // Generate HTML
+            let html = '<div class="tech-grid">';
+            sortedEntries.forEach(entry => {
+                const ring = radarData.rings[entry.ring];
+                const quadrant = radarData.quadrants[entry.quadrant];
+                html += `
+                    <div class="tech-item" data-index="${entry.index}" 
+                         style="border-left-color: ${quadrant.color};"
+                         onmouseenter="highlightBlip(${entry.index})" 
+                         onmouseleave="renderRadar()">
+                        <h4>
+                            <span class="tech-number" style="background: ${quadrant.color};">${entry.index + 1}</span>
+                            ${entry.label}
+                        </h4>
+                        <div class="tech-item-meta">
+                            ${quadrant.name} • ${ring.name}
+                        </div>
+                    </div>
+                `;
             });
+            html += '</div>';
             
             container.innerHTML = html;
         }
