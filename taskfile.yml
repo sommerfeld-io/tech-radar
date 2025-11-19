@@ -50,6 +50,7 @@ tasks:
   radar:build:
     desc: 'Build the tech radar from YAML data files'
     cmds:
+      - task: cleanup
       - npm install
       - npm run build:radar
 
