@@ -1,0 +1,57 @@
+---
+title: "Sommerfeld.io Tech Radar"
+version: "1.0.0"
+description: |
+  This is the technology radar for the sommerfeld.io GitHub organization.
+  It provides an overview of technologies, tools, frameworks, and practices
+  we use, assess, or have on our radar for future consideration.
+
+quadrants:
+  - name: "Languages"
+    color: "#8e7cc3"
+  - name: "Tools"
+    color: "#6fa8dc"
+  - name: "Platforms"
+    color: "#93c47d"
+  - name: "Techniques"
+    color: "#f6b26b"
+
+rings:
+  - name: "Adopt"
+    description: "Technologies we have high confidence in and use in production"
+    color: "#93c47d"
+  - name: "Trial"
+    description: "Technologies worth pursuing, being used successfully in some projects"
+    color: "#ffd966"
+  - name: "Assess"
+    description: "Technologies worth exploring to understand their potential"
+    color: "#f9cb9c"
+  - name: "Hold"
+    description: "Technologies to proceed with caution or phase out"
+    color: "#ea9999"
+
+technologies:
+  - name: "Bash"
+    quadrant: "Languages"
+    ring: "Adopt"
+  - name: "Python"
+    quadrant: "Languages"
+    ring: "Trial"
+  - name: "Docker"
+    quadrant: "Platforms"
+    ring: "Adopt"
+  - name: "GitHub Actions"
+    quadrant: "Platforms"
+    ring: "Adopt"
+  - name: "Taskfile (Task)"
+    quadrant: "Tools"
+    ring: "Adopt"
+  - name: "semantic-release"
+    quadrant: "Tools"
+    ring: "Adopt"
+  - name: "yamllint"
+    quadrant: "Tools"
+    ring: "Adopt"
+  - name: "MkDocs"
+    quadrant: "Tools"
+    ring: "Trial"

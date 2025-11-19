@@ -6,36 +6,69 @@ This directory contains the internal technology radar for the sommerfeld.io orga
 
 ```
 radar/
-├── data/           # YAML files defining technologies
+├── radar.yml       # Single YAML file with all radar data
 ├── public/         # Generated static radar files
 │   ├── index.html  # Radar visualization
-│   ├── radar-data.json     # Generated from YAML
-│   └── radar-details.json  # Generated from YAML
+│   └── radar-data.json  # Generated from YAML
 ├── build.js        # Build script to generate JSON from YAML
 └── README.md       # This file
+```
+
+## Data File Format
+
+The `radar.yml` file contains all radar configuration and data:
+
+```yaml
+---
+title: "Sommerfeld.io Tech Radar"
+version: "1.0.0"
+description: |
+  Description of the radar and its purpose.
+
+quadrants:
+  - name: "Languages"
+    color: "#8e7cc3"
+  - name: "Tools"
+    color: "#6fa8dc"
+  - name: "Platforms"
+    color: "#93c47d"
+  - name: "Techniques"
+    color: "#f6b26b"
+
+rings:
+  - name: "Adopt"
+    description: "Technologies we use with confidence"
+    color: "#93c47d"
+  - name: "Trial"
+    description: "Technologies worth pursuing"
+    color: "#ffd966"
+  - name: "Assess"
+    description: "Technologies worth exploring"
+    color: "#f9cb9c"
+  - name: "Hold"
+    description: "Technologies to proceed with caution"
+    color: "#ea9999"
+
+technologies:
+  - name: "Docker"
+    quadrant: "Platforms"
+    ring: "Adopt"
+  - name: "Python"
+    quadrant: "Languages"
+    ring: "Trial"
 ```
 
 ## Adding a Technology
 
 To add a new technology to the radar:
 
-1. Create a new YAML file in `radar/data/` (e.g., `my-technology.yml`)
-2. Use the following template:
+1. Edit `radar/radar.yml`
+2. Add a new entry to the `technologies` list:
 
 ```yaml
----
-name: "Technology Name"
-quadrant: "Languages|Tools|Platforms|Techniques"
-ring: "Adopt|Trial|Assess|Hold"
-description: |
-  Your markdown description here.
-  
-  **Key Benefits:**
-  - Benefit 1
-  - Benefit 2
-  
-  **Usage:**
-  - How we use it
+  - name: "Technology Name"
+    quadrant: "Languages|Tools|Platforms|Techniques"
+    ring: "Adopt|Trial|Assess|Hold"
 ```
 
 3. Build the radar: `npm run build:radar`

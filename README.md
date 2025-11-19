@@ -58,23 +58,13 @@ The radar organizes technologies into:
 
 To add a new technology to the radar:
 
-1. Create a new YAML file in `radar/data/` (e.g., `my-technology.yml`)
-2. Use this template:
+1. Edit `radar/radar.yml`
+2. Add a new entry to the `technologies` list:
 
 ```yaml
----
-name: "Technology Name"
-quadrant: "Languages|Tools|Platforms|Techniques"
-ring: "Adopt|Trial|Assess|Hold"
-description: |
-  Your markdown description here.
-
-  **Key Benefits:**
-  - Benefit 1
-  - Benefit 2
-
-  **Usage:**
-  - How we use it
+  - name: "Technology Name"
+    quadrant: "Languages|Tools|Platforms|Techniques"
+    ring: "Adopt|Trial|Assess|Hold"
 ```
 
 3. Build the radar: `npm run build:radar` or `task radar:build`
