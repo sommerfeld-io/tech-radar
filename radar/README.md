@@ -110,7 +110,7 @@ npm run serve:radar
 npm run serve:radar
 
 # Or using task
-task radar:open
+task radar:run
 ```
 
 Then open http://localhost:8080 in your browser.
@@ -128,7 +128,7 @@ The radar build can be integrated into your existing workflow:
 task radar:build
 
 # Build and serve the radar
-task radar:open
+task radar:run
 
 # Or directly with npm
 npm run build:radar

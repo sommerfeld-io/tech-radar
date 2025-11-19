@@ -71,7 +71,7 @@ tasks:
     cmds:
       - npm run build:radar
 
-  radar:open:
+  radar:run:
     desc: 'Build and serve the tech radar on http://localhost:8080'
     cmds:
       - task: radar:build

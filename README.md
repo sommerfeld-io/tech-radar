@@ -36,7 +36,7 @@ npm run serve:radar
 ### Using Task
 ```bash
 # Build and serve the radar (starts server on http://localhost:8080)
-task radar:open
+task radar:run
 
 # Or just build
 task radar:build
