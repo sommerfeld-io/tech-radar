@@ -35,7 +35,7 @@
     "ring": "Adopt",
     "description": "semantic-release automates version management and package publishing based\non conventional commits.\n\n**Key Benefits:**\n- Automated versioning based on commit messages\n- Generates changelogs automatically\n- Ensures consistent release process\n\n**Usage:**\n- Version bumping in CI/CD\n- Changelog generation\n- GitHub release creation\n"
   },
-  "taskfile-(task)": {
+  "taskfile-task": {
     "name": "Taskfile (Task)",
     "quadrant": "Tools",
     "ring": "Adopt",

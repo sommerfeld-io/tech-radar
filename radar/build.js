@@ -40,7 +40,7 @@ function transformToRadarFormat(technologies) {
     quadrant: mapQuadrant(tech.quadrant),
     ring: mapRing(tech.ring),
     moved: 0,
-    link: `#${tech.name.toLowerCase().replace(/\s+/g, '-')}`,
+    link: `#${tech.name.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '')}`,
     description: tech.description
   }));
 
@@ -88,7 +88,7 @@ try {
   const detailsFile = path.join(__dirname, 'public', 'radar-details.json');
   const details = {};
   technologies.forEach(tech => {
-    const key = tech.name.toLowerCase().replace(/\s+/g, '-');
+    const key = tech.name.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
     details[key] = {
       name: tech.name,
       quadrant: tech.quadrant,

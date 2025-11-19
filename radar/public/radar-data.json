@@ -53,7 +53,7 @@
       "quadrant": 1,
       "ring": 0,
       "moved": 0,
-      "link": "#taskfile-(task)",
+      "link": "#taskfile-task",
       "description": "Task is our standard task runner, replacing Make with a more modern and user-friendly approach.\n\n**Key Benefits:**\n- Simple YAML syntax\n- Cross-platform compatibility\n- Built-in features like variables and includes\n- Better error handling than Make\n\n**Usage:**\n- Project build automation\n- Development workflows\n- Standardized across all repositories\n"
     },
     {

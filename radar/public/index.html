@@ -4,9 +4,527 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sommerfeld.io Tech Radar</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .controls {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .legend-section {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .legend-section h3 {
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            color: #667eea;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .legend-item .color-box {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+            border-radius: 3px;
+        }
+
+        #radar-container {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        #radar-canvas {
+            max-width: 100%;
+            border: 1px solid #e0e0e0;
+            cursor: crosshair;
+        }
+
+        .technology-list {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .technology-list h2 {
+            margin-bottom: 1.5rem;
+            color: #667eea;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .tech-item {
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 6px;
+            border-left: 4px solid #667eea;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .tech-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .tech-item h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .tech-item-meta {
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        #detail-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #detail-modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #999;
+            line-height: 1;
+        }
+
+        .modal-close:hover {
+            color: #333;
+        }
+
+        .modal-content h2 {
+            color: #667eea;
+            margin-bottom: 1rem;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .badge-ring {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .badge-quadrant {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+
+        .modal-description {
+            line-height: 1.7;
+            color: #555;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎯 Sommerfeld.io Tech Radar</h1>
+        <p>Technologies, Tools, and Practices for the sommerfeld.io Organization</p>
+    </div>
+
+    <div class="container">
+        <div class="legend">
+            <div class="legend-section">
+                <h3>Rings</h3>
+                <div class="legend-item">
+                    <div class="color-box" style="background: #93c47d;"></div>
+                    <span><strong>Adopt</strong> - Use with confidence</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background: #ffd966;"></div>
+                    <span><strong>Trial</strong> - Worth pursuing</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background: #f9cb9c;"></div>
+                    <span><strong>Assess</strong> - Worth exploring</span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background: #ea9999;"></div>
+                    <span><strong>Hold</strong> - Proceed with caution</span>
+                </div>
+            </div>
+            <div class="legend-section">
+                <h3>Quadrants (Categories)</h3>
+                <div class="legend-item">
+                    <div class="color-box" style="background: #8e7cc3;"></div>
+                    <span><strong>Languages</strong></span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background: #6fa8dc;"></div>
+                    <span><strong>Tools</strong></span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background: #93c47d;"></div>
+                    <span><strong>Platforms</strong></span>
+                </div>
+                <div class="legend-item">
+                    <div class="color-box" style="background: #f6b26b;"></div>
+                    <span><strong>Techniques</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <div id="radar-container">
+            <canvas id="radar-canvas" width="800" height="800"></canvas>
+        </div>
+
+        <div class="technology-list">
+            <h2>All Technologies</h2>
+            <div id="tech-list" class="tech-grid"></div>
+        </div>
+    </div>
+
+    <div id="detail-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <h2 id="modal-title"></h2>
+            <div class="modal-meta">
+                <span class="badge badge-ring" id="modal-ring"></span>
+                <span class="badge badge-quadrant" id="modal-quadrant"></span>
+            </div>
+            <div class="modal-description" id="modal-description"></div>
+        </div>
+    </div>
+
+    <script>
+        const QUADRANTS = ['Languages', 'Tools', 'Platforms', 'Techniques'];
+        const RINGS = ['Adopt', 'Trial', 'Assess', 'Hold'];
+        const RING_COLORS = ['#93c47d', '#ffd966', '#f9cb9c', '#ea9999'];
+        const QUADRANT_COLORS = ['#8e7cc3', '#6fa8dc', '#93c47d', '#f6b26b'];
+
+        let radarData = null;
+        let radarDetails = null;
+        let blipPositions = [];
+
+        // Load data
+        Promise.all([
+            fetch('radar-data.json').then(r => r.json()),
+            fetch('radar-details.json').then(r => r.json())
+        ]).then(([data, details]) => {
+            radarData = data;
+            radarDetails = details;
+            renderRadar();
+            renderTechnologyList();
+        }).catch(err => {
+            console.error('Error loading radar data:', err);
+            document.getElementById('radar-container').innerHTML = 
+                '<p style="color: red; text-align: center;">Error loading radar data. Make sure to run "npm run build:radar" first.</p>';
+        });
+
+        function renderRadar() {
+            const canvas = document.getElementById('radar-canvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const maxRadius = Math.min(width, height) / 2 - 50;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw rings
+            const ringCount = 4;
+            for (let i = ringCount; i > 0; i--) {
+                const radius = (maxRadius / ringCount) * i;
+                
+                // Fill
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+                ctx.fillStyle = RING_COLORS[i - 1] + '26'; // 26 = 15% opacity
+                ctx.fill();
+                
+                // Stroke
+                ctx.strokeStyle = RING_COLORS[i - 1];
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Add ring labels
+                ctx.fillStyle = '#666';
+                ctx.font = 'bold 14px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(RINGS[i - 1], centerX, centerY - radius + 20);
+            }
+
+            // Draw quadrant lines
+            ctx.strokeStyle = '#ccc';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(centerX, 0);
+            ctx.lineTo(centerX, height);
+            ctx.stroke();
+            
+            ctx.beginPath();
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(width, centerY);
+            ctx.stroke();
+
+            // Add quadrant labels
+            const quadrantLabelOffset = maxRadius * 0.85;
+            const quadrantPositions = [
+                { x: centerX + quadrantLabelOffset / 1.5, y: centerY - quadrantLabelOffset / 1.5 },
+                { x: centerX - quadrantLabelOffset / 1.5, y: centerY - quadrantLabelOffset / 1.5 },
+                { x: centerX - quadrantLabelOffset / 1.5, y: centerY + quadrantLabelOffset / 1.5 },
+                { x: centerX + quadrantLabelOffset / 1.5, y: centerY + quadrantLabelOffset / 1.5 }
+            ];
+
+            ctx.font = 'bold 18px sans-serif';
+            ctx.textAlign = 'center';
+            QUADRANTS.forEach((quadrant, i) => {
+                ctx.fillStyle = QUADRANT_COLORS[i];
+                ctx.fillText(quadrant, quadrantPositions[i].x, quadrantPositions[i].y);
+            });
+
+            // Plot blips
+            blipPositions = [];
+            radarData.entries.forEach((entry, index) => {
+                const angle = getBlipAngle(entry.quadrant);
+                const radius = getBlipRadius(entry.ring, maxRadius);
+                
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+
+                // Store position for click detection
+                blipPositions.push({ x, y, entry, radius: 8 });
+
+                // Draw blip
+                ctx.beginPath();
+                ctx.arc(x, y, 8, 0, 2 * Math.PI);
+                ctx.fillStyle = QUADRANT_COLORS[entry.quadrant];
+                ctx.fill();
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw label
+                ctx.fillStyle = '#333';
+                ctx.font = 'bold 11px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(entry.label, x, y - 12);
+            });
+
+            // Add click handler
+            canvas.onclick = handleCanvasClick;
+        }
+
+        function handleCanvasClick(event) {
+            const canvas = document.getElementById('radar-canvas');
+            const rect = canvas.getBoundingClientRect();
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            // Check if click is near any blip
+            for (const blip of blipPositions) {
+                const distance = Math.sqrt(Math.pow(x - blip.x, 2) + Math.pow(y - blip.y, 2));
+                if (distance < blip.radius + 5) {
+                    showDetail(blip.entry);
+                    break;
+                }
+            }
+        }
+
+        function getBlipAngle(quadrant) {
+            const baseAngles = [
+                -Math.PI / 4,  // Languages (top-right)
+                -3 * Math.PI / 4,  // Tools (top-left)
+                3 * Math.PI / 4,  // Platforms (bottom-left)
+                Math.PI / 4   // Techniques (bottom-right)
+            ];
+            
+            const spread = Math.PI / 3;
+            return baseAngles[quadrant] + (Math.random() - 0.5) * spread;
+        }
+
+        function getBlipRadius(ring, maxRadius) {
+            const ringWidth = maxRadius / 4;
+            const minRadius = ring * ringWidth + ringWidth * 0.2;
+            const maxRingRadius = (ring + 1) * ringWidth - ringWidth * 0.2;
+            return minRadius + Math.random() * (maxRingRadius - minRadius);
+        }
+
+        function renderTechnologyList() {
+            const container = document.getElementById('tech-list');
+            
+            // Group by ring
+            const byRing = {};
+            radarData.entries.forEach(entry => {
+                const ring = RINGS[entry.ring];
+                if (!byRing[ring]) byRing[ring] = [];
+                byRing[ring].push(entry);
+            });
+
+            // Sort rings by priority
+            const ringOrder = ['Adopt', 'Trial', 'Assess', 'Hold'];
+            let html = '';
+            
+            ringOrder.forEach(ring => {
+                if (byRing[ring]) {
+                    byRing[ring].sort((a, b) => a.label.localeCompare(b.label));
+                    byRing[ring].forEach(entry => {
+                        html += `
+                            <div class="tech-item" onclick='showDetailByLabel("${entry.label}")'>
+                                <h3>${entry.label}</h3>
+                                <div class="tech-item-meta">
+                                    ${QUADRANTS[entry.quadrant]} • ${RINGS[entry.ring]}
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+            });
+            
+            container.innerHTML = html;
+        }
+
+        function showDetail(entry) {
+            const key = entry.label.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '');
+            const detail = radarDetails[key];
+            
+            if (!detail) {
+                console.error('Detail not found for:', key);
+                return;
+            }
+
+            document.getElementById('modal-title').textContent = detail.name;
+            document.getElementById('modal-ring').textContent = detail.ring;
+            document.getElementById('modal-quadrant').textContent = detail.quadrant;
+            document.getElementById('modal-description').textContent = detail.description;
+            
+            document.getElementById('detail-modal').classList.add('show');
+        }
+
+        function showDetailByLabel(label) {
+            const entry = radarData.entries.find(e => e.label === label);
+            if (entry) showDetail(entry);
+        }
+
+        function closeModal() {
+            document.getElementById('detail-modal').classList.remove('show');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('detail-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
         * {
             margin: 0;
             padding: 0;
