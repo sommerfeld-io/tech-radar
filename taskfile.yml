@@ -79,12 +79,3 @@ tasks:
       - npm run serve:radar
 
   # ===============================================================================================
-
-  build:docker:
-    desc: 'Lint and build container COMPOSE_SERVICE'
-    vars:
-      COMPOSE_SERVICE: 'app'
-    cmds:
-      - task: cleanup
-      - docker compose up {{ .COMPOSE_SERVICE }}-lint-dockerfile --exit-code-from {{ .COMPOSE_SERVICE }}-lint-dockerfile
-      - docker compose build {{ .COMPOSE_SERVICE }}
