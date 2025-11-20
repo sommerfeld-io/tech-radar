@@ -11,70 +11,28 @@ This repository contains the technology radar for the [Sommerfeld.io](https://gi
 - [Where to file issues][file-issues]
 - [Project Board for Issues and Pull Requests][project-board]
 
-## 🎯 Viewing the Tech Radar
+## Usage
 
-The tech radar is a static visualization that displays all technologies used across the sommerfeld.io organization. To view it:
+Build and serve the radar (starts server on <http://localhost:8080>):
 
-### Option 1: View Online (GitHub Pages)
-Open the radar directly from the repository: [View Tech Radar](radar/public/index.html)
-
-### Option 2: View Locally
 ```bash
-# Clone the repository
-git clone https://github.com/sommerfeld-io/tech-radar.git
-cd tech-radar
-
-# Install dependencies and build the radar
-npm install
-npm run build:radar
-
-# Start local web server
-npm run serve:radar
-# Then open http://localhost:8080 in your browser
-```
-
-### Using Task
-```bash
-# Build and serve the radar (starts server on http://localhost:8080)
 task radar:run
-
-# Or just build
-task radar:build
 ```
 
-## 📊 Tech Radar Structure
-
-The radar organizes technologies into:
-
-### Rings (Adoption Level)
-- **Adopt**: Technologies we have high confidence in and use in production
-- **Trial**: Technologies worth pursuing, being used successfully in some projects
-- **Assess**: Technologies worth exploring to understand their potential
-- **Hold**: Technologies to proceed with caution or phase out
-
-### Quadrants (Categories)
-- **Languages**: Programming languages and markup languages
-- **Tools**: Development tools, build tools, and utilities
-- **Platforms**: Infrastructure, services, and platforms
-- **Techniques**: Methods, patterns, and practices
-
-## ➕ Adding a Technology
+## Adding a Technology
 
 To add a new technology to the radar:
 
-1. Edit `radar/radar.yml`
-2. Add a new entry to the `technologies` list:
+- Edit `radar/radar.yml`
+- Add a new entry to the `technologies` list:
 
-```yaml
-  - name: "Technology Name"
-    quadrant: "Languages|Tools|Platforms|Techniques"
-    ring: "Adopt|Trial|Assess|Hold"
-```
+  ```yaml
+    - name: "Technology Name"
+      quadrant: "Languages|Tools|Platforms|Techniques"
+      ring: "Adopt|Trial|Assess|Hold"
+  ```
 
-3. Build the radar: `npm run build:radar` or `task radar:build`
-4. Open `radar/public/index.html` to view your changes
-
-See [radar/README.md](radar/README.md) for more details.
+- Build the radar with above command
 
 ## Contact
 

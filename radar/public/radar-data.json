@@ -1,7 +1,7 @@
 {
   "title": "Sommerfeld.io Tech Radar",
   "version": "0.0.0",
-  "description": "This is the technology radar for the sommerfeld.io GitHub organization.\nIt provides an overview of technologies, tools, frameworks, and practices\nwe use, assess, or have on our radar for future consideration.\n",
+  "description": "This is the technology radar for the sommerfeld.io GitHub organization.\nIt provides an overview of technologies, tools, frameworks, and practices\nwe use, assess, or have in mind for future consideration.\n",
   "quadrants": [
     {
       "name": "Languages, Frameworks and Tooling",
@@ -19,7 +19,7 @@
       "description": "Infrastructure platforms, cloud services, and deployment environments"
     },
     {
-      "name": "Infrastructure & Tooling",
+      "name": "Infrastructure",
       "color": "#f6b26b",
       "description": "Tools, automation, and infrastructure management solutions"
     }
@@ -226,6 +226,12 @@
       "quadrant": 0,
       "ring": 0,
       "link": "#pre-commit"
+    },
+    {
+      "label": "GitHub Copilot",
+      "quadrant": 0,
+      "ring": 0,
+      "link": "#github-copilot"
     }
   ]
 }
