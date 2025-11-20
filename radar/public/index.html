@@ -297,6 +297,17 @@
             white-space: nowrap;
             box-shadow: 0 2px 8px rgba(0,0,0,0.4);
             border: 1px solid rgba(255, 110, 66, 0.3);
+            border-radius: 4px;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: #1E2129;
         }
 
         @media (max-width: 1200px) {
@@ -724,9 +735,14 @@
             tooltip = document.createElement('div');
             tooltip.className = 'tooltip';
             tooltip.textContent = text;
-            tooltip.style.left = (x + window.scrollX + 15) + 'px';
-            tooltip.style.top = (y + window.scrollY + 15) + 'px';
             document.body.appendChild(tooltip);
+
+            // Get tooltip dimensions after adding to DOM
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            // Position centered above the bullet
+            tooltip.style.left = (x + window.scrollX - tooltipRect.width / 2) + 'px';
+            tooltip.style.top = (y + window.scrollY - tooltipRect.height - 15) + 'px';
         }
 
         function removeTooltip() {
