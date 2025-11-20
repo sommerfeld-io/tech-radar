@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Radar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #111317;
+            color: rgba(226, 228, 233, 0.82);
+        }
+
+        .header {
+            background: #111317;
+            color: rgba(226, 228, 233, 0.82);
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .github-corner {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .github-corner a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(226, 228, 233, 0.82);
+            text-decoration: none;
+        }
+
+        .github-corner a:hover {
+            color: rgb(255, 110, 66);
+        }
+
+        .github-corner svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            fill: currentColor;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .header .version {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-top: 0.5rem;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .radar-section {
+            background: #1E2129;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            grid-template-rows: 1fr auto 1fr;
+            gap: 2rem;
+            align-items: start;
+            justify-items: center;
+        }
+
+        .quadrant-technologies {
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .quadrant-technologies h3 {
+            display: none;
+        }
+
+        .quadrant-top-right {
+            grid-column: 3;
+            grid-row: 1;
+            justify-self: end;
+            align-self: start;
+        }
+
+        .quadrant-top-right .technology-grid {
+            justify-content: flex-end;
+        }
+
+        .quadrant-bottom-right {
+            grid-column: 3;
+            grid-row: 3;
+            justify-self: end;
+            align-self: end;
+        }
+
+        .quadrant-bottom-right .technology-grid {
+            justify-content: flex-end;
+        }
+
+        .quadrant-bottom-left {
+            grid-column: 1;
+            grid-row: 3;
+            justify-self: start;
+            align-self: end;
+        }
+
+        .quadrant-bottom-left .technology-grid {
+            justify-content: flex-start;
+        }
+
+        .quadrant-top-left {
+            grid-column: 1;
+            grid-row: 1;
+            justify-self: start;
+            align-self: start;
+        }
+
+        .quadrant-top-left .technology-grid {
+            justify-content: flex-start;
+        }
+
+        .legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .legend-section {
+            background: #1E2129;
+            padding: 2rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .legend-section h3 {
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            color: rgb(94, 139, 222);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .legend-item .color-box {
+            width: 20px;
+            height: 20px;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .legend-description {
+            font-size: 0.85rem;
+            color: rgba(226, 228, 233, 0.6);
+            margin-top: 0.25rem;
+        }
+
+        .legend-item-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #radar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            grid-column: 2;
+            grid-row: 1 / 4;
+        }
+
+        #radar-canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .technology-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .technology-card {
+            background: #1E2129;
+            border: 1px solid #111317;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            display: inline-flex;
+            align-items: stretch;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .technology-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            background: #111317;
+        }
+
+        .technology-card.highlighted {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            background: #111317;
+        }
+
+        .technology-header {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .technology-number {
+            width: 24px;
+            min-width: 24px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.65rem;
+            flex-shrink: 0;
+            padding: 0.3rem 0;
+        }
+
+        .technology-name {
+            font-weight: 400;
+            font-size: 0.85rem;
+            color: rgba(226, 228, 233, 0.95);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0.35rem 0.6rem;
+            flex: 1;
+               max-width: 160px;
+        }
+
+        .technology-meta {
+            display: none;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            color: rgba(226, 228, 233, 0.6);
+        }
+
+        .footer a {
+            color: rgb(94, 139, 222);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: rgb(255, 110, 66);
+            text-decoration: none;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: #1E2129;
+            color: rgba(226, 228, 233, 0.95);
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            pointer-events: none;
+            z-index: 1000;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 110, 66, 0.3);
+            border-radius: 4px;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+            border-top-color: #1E2129;
+        }
+
+        @media (max-width: 1200px) {
+            .radar-section {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+
+            #radar-container {
+                grid-column: 1;
+                grid-row: auto;
+            }
+
+            .quadrant-top-right,
+            .quadrant-bottom-right,
+            .quadrant-bottom-left,
+            .quadrant-top-left {
+                grid-column: 1;
+                grid-row: auto;
+                max-width: 100%;
+            }
+
+            .technology-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .technology-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .legend {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="github-corner">
+            <a href="" id="github-link" target="_blank" rel="noopener noreferrer" aria-label="View on GitHub">
+                <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                </svg>
+            </a>
+        </div>
+        <h1 id="radar-title">Sommerfeld.io Tech Radar</h1>
+        <p id="radar-description">This is the technology radar for the sommerfeld.io GitHub organization. It provides an overview of technologies, tools, frameworks, and practices we use, assess, or have on our radar for future consideration.</p>
+        <div class="version" id="version-container">Version <span id="radar-version">1.0.0</span></div>
+    </div>
+
+    <div class="container">
+        <div class="radar-section">
+            <div class="quadrant-technologies quadrant-top-left">
+                <h3 id="quadrant-3-title"></h3>
+                <div class="technology-grid" id="quadrant-3-list"></div>
+            </div>
+
+            <div id="radar-container">
+                <canvas id="radar-canvas" width="900" height="900"></canvas>
+            </div>
+
+            <div class="quadrant-technologies quadrant-top-right">
+                <h3 id="quadrant-0-title"></h3>
+                <div class="technology-grid" id="quadrant-0-list"></div>
+            </div>
+
+            <div class="quadrant-technologies quadrant-bottom-left">
+                <h3 id="quadrant-2-title"></h3>
+                <div class="technology-grid" id="quadrant-2-list"></div>
+            </div>
+
+            <div class="quadrant-technologies quadrant-bottom-right">
+                <h3 id="quadrant-1-title"></h3>
+                <div class="technology-grid" id="quadrant-1-list"></div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-section">
+                <h3>Rings</h3>
+                <div id="rings-legend"></div>
+            </div>
+            <div class="legend-section">
+                <h3>Quadrants</h3>
+                <div id="quadrants-legend"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div>
+            <span id="copyright-text"></span>
+        </div>
+    </div>
+
+    <script>
+        let radarData = null;
+        let hoveredTech = null;
+        let tooltip = null;
+
+        fetch('radar-data.json')
+            .then(response => response.json())
+            .then(data => {
+                radarData = data;
+                // Transform entries to technologies format for easier handling
+                radarData.technologies = data.entries.map(entry => ({
+                    name: entry.label,
+                    quadrant: data.quadrants[entry.quadrant].name,
+                    ring: data.rings[entry.ring].name,
+                    link: entry.link
+                }));
+                if (data.version) {
+                    document.getElementById('radar-version').textContent = data.version;
+                } else {
+                    // Hide the version if not provided
+                    document.getElementById('version-container').style.display = 'none';
+                }
+
+                // Set title and description
+                if (data.title) {
+                    document.getElementById('radar-title').textContent = data.title;
+                }
+                if (data.description) {
+                    document.getElementById('radar-description').textContent = data.description;
+                }
+
+                // Set GitHub URL and copyright
+                if (data.githubUrl) {
+                    document.getElementById('github-link').href = data.githubUrl;
+                    document.querySelector('.github-corner').style.display = 'flex';
+                } else {
+                    // Hide the GitHub corner if URL is not provided
+                    document.querySelector('.github-corner').style.display = 'none';
+                }
+                if (data.copyright) {
+                    document.getElementById('copyright-text').textContent = data.copyright;
+                }
+
+                renderLegend(data);
+                renderRadar(data);
+                renderTechnologies(data);
+            })
+            .catch(error => console.error('Error loading radar data:', error));
+
+        function renderLegend(data) {
+            const ringsLegend = document.getElementById('rings-legend');
+            const quadrantsLegend = document.getElementById('quadrants-legend');
+
+            data.rings.forEach(ring => {
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+                item.innerHTML = `
+                    <div class="color-box" style="background-color: ${ring.color}"></div>
+                    <div class="legend-item-content">
+                        <div><strong>${ring.name}</strong></div>
+                        <div class="legend-description">${ring.description}</div>
+                    </div>
+                `;
+                ringsLegend.appendChild(item);
+            });
+
+            data.quadrants.forEach(quadrant => {
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+                item.innerHTML = `
+                    <div class="color-box" style="background-color: ${quadrant.color}"></div>
+                    <div class="legend-item-content">
+                        <div><strong>${quadrant.name}</strong></div>
+                        <div class="legend-description">${quadrant.description || ''}</div>
+                    </div>
+                `;
+                quadrantsLegend.appendChild(item);
+            });
+        }
+
+        function renderRadar(data) {
+            const canvas = document.getElementById('radar-canvas');
+            const ctx = canvas.getContext('2d');
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const maxRadius = Math.min(centerX, centerY) - 50;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw rings with gradient (blue outside to green inside)
+            const ringCount = data.rings.length;
+            // Custom ring sizing: make innermost ring (Adopt) larger
+            const getRingRadius = (ringIndex) => {
+                if (ringIndex === 0) {
+                    // Innermost ring (Adopt) - 40% of max radius
+                    return maxRadius * 0.4;
+                } else {
+                    // Remaining rings share the rest of the space equally
+                    const remainingSpace = maxRadius * 0.6;
+                    const remainingRings = ringCount - 1;
+                    return maxRadius * 0.4 + (remainingSpace * ringIndex / remainingRings);
+                }
+            };
+
+            for (let i = ringCount - 1; i >= 0; i--) {
+                const ring = data.rings[i];
+                const radius = getRingRadius(i);
+
+                const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+
+                // Outer ring is more blue, inner rings become more green
+                const blueRatio = i / (ringCount - 1);
+                const greenRatio = 1 - blueRatio;
+
+                const r = Math.round(50 * blueRatio + 100 * greenRatio);
+                const g = Math.round(150 * blueRatio + 200 * greenRatio);
+                const b = Math.round(200 * blueRatio + 100 * greenRatio);
+
+                gradient.addColorStop(0, `rgba(${r + 20}, ${g + 20}, ${b + 20}, 0.3)`);
+                gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0.3)`);
+
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+                ctx.fill();
+
+                ctx.strokeStyle = 'rgba(226, 228, 233, 0.2)';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Ring label
+                ctx.fillStyle = 'rgba(226, 228, 233, 0.6)';
+                ctx.font = '24px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(ring.name.toUpperCase(), centerX, centerY - radius + 30);
+            }
+
+            // Draw quadrant lines
+            ctx.strokeStyle = 'rgba(226, 228, 233, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY - maxRadius);
+            ctx.lineTo(centerX, centerY + maxRadius);
+            ctx.moveTo(centerX - maxRadius, centerY);
+            ctx.lineTo(centerX + maxRadius, centerY);
+            ctx.stroke();
+
+            // Draw quadrant labels
+            const quadrantPositions = [
+                { x: centerX + maxRadius * 0.7, y: centerY - maxRadius * 0.7 }, // Top right
+                { x: centerX + maxRadius * 0.7, y: centerY + maxRadius * 0.7 }, // Bottom right
+                { x: centerX - maxRadius * 0.7, y: centerY + maxRadius * 0.7 }, // Bottom left
+                { x: centerX - maxRadius * 0.7, y: centerY - maxRadius * 0.7 }  // Top left
+            ];
+
+            data.quadrants.forEach((quadrant, index) => {
+                const pos = quadrantPositions[index];
+                ctx.fillStyle = quadrant.color;
+                ctx.font = 'bold 14px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(quadrant.name, pos.x, pos.y);
+            });
+
+            // Draw technologies with collision detection
+            const blipRadius = 12;
+            const minDistance = blipRadius * 2.5; // Minimum distance between blip centers
+
+            // Helper function to get ring boundaries (matching the ring drawing logic)
+            const getRingBoundaries = (ringIndex) => {
+                if (ringIndex === 0) {
+                    return { inner: blipRadius, outer: maxRadius * 0.4 - blipRadius };
+                } else {
+                    const remainingSpace = maxRadius * 0.6;
+                    const remainingRings = ringCount - 1;
+                    const innerBound = maxRadius * 0.4 + (remainingSpace * (ringIndex - 1) / remainingRings);
+                    const outerBound = maxRadius * 0.4 + (remainingSpace * ringIndex / remainingRings);
+                    return { inner: innerBound + blipRadius, outer: outerBound - blipRadius };
+                }
+            };
+
+            data.technologies.forEach((tech, index) => {
+                const quadrant = data.quadrants.find(q => q.name === tech.quadrant);
+                const ring = data.rings.find(r => r.name === tech.ring);
+                if (!quadrant || !ring) return;
+
+                const ringIndex = data.rings.indexOf(ring);
+                const quadrantIndex = data.quadrants.indexOf(quadrant);
+
+                const boundaries = getRingBoundaries(ringIndex);
+                const innerRadius = boundaries.inner;
+                const outerRadius = boundaries.outer;
+
+                // Map quadrant index to correct angle range
+                // Canvas Y-axis points down, so negative angles for top, positive for bottom
+                // 0: Top-right (-90° to 0°)
+                // 1: Bottom-right (0° to 90°)
+                // 2: Bottom-left (90° to 180°)
+                // 3: Top-left (-180° to -90°)
+                const quadrantAngles = [
+                    { start: -Math.PI / 2, end: 0 },          // Top-right
+                    { start: 0, end: Math.PI / 2 },           // Bottom-right
+                    { start: Math.PI / 2, end: Math.PI },     // Bottom-left
+                    { start: -Math.PI, end: -Math.PI / 2 }    // Top-left
+                ];
+
+                const angles = quadrantAngles[quadrantIndex];
+                const angleRange = angles.end - angles.start;
+
+                // Try to find a non-overlapping position
+                let x, y, attempts = 0;
+                let validPosition = false;
+
+                while (!validPosition && attempts < 100) {
+                    const radiusVariation = innerRadius + Math.random() * (outerRadius - innerRadius);
+                    const angleVariation = angles.start + (Math.random() * angleRange * 0.8 + angleRange * 0.1);
+
+                    x = centerX + radiusVariation * Math.cos(angleVariation);
+                    y = centerY + radiusVariation * Math.sin(angleVariation);
+
+                    // Check for collisions with previously placed blips
+                    validPosition = true;
+                    for (let i = 0; i < index; i++) {
+                        const other = data.technologies[i];
+                        if (other._x && other._y) {
+                            const dx = x - other._x;
+                            const dy = y - other._y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            if (distance < minDistance) {
+                                validPosition = false;
+                                break;
+                            }
+                        }
+                    }
+                    attempts++;
+                }
+
+                // If no valid position found after attempts, use last calculated position
+                tech._x = x;
+                tech._y = y;
+                tech._radius = blipRadius;
+
+                // Draw blip
+                ctx.fillStyle = ring.color;
+                ctx.beginPath();
+                ctx.arc(x, y, tech._radius, 0, 2 * Math.PI);
+                ctx.fill();
+
+                // Draw number
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(index + 1, x, y);
+            });
+
+            // Add canvas hover and click handlers
+            canvas.addEventListener('mousemove', (e) => handleCanvasHover(e, canvas, data));
+            canvas.addEventListener('mouseleave', () => {
+                removeTooltip();
+                unhighlightAllCards();
+            });
+            canvas.addEventListener('click', (e) => handleCanvasClick(e, canvas, data));
+        }
+
+        function handleCanvasHover(e, canvas, data) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
+
+            let found = false;
+            data.technologies.forEach((tech, index) => {
+                const dx = x - tech._x;
+                const dy = y - tech._y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < tech._radius) {
+                    found = true;
+                    // Calculate bullet position in viewport coordinates
+                    const bulletScreenX = rect.left + (tech._x / canvas.width) * rect.width;
+                    const bulletScreenY = rect.top + (tech._y / canvas.height) * rect.height;
+                    showTooltip(tech.name, bulletScreenX, bulletScreenY);
+                    highlightCard(index);
+                    canvas.style.cursor = 'pointer';
+                }
+            });
+
+            if (!found) {
+                removeTooltip();
+                unhighlightAllCards();
+                canvas.style.cursor = 'default';
+            }
+        }
+
+        function handleCanvasClick(e, canvas, data) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
+
+            data.technologies.forEach((tech, index) => {
+                const dx = x - tech._x;
+                const dy = y - tech._y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < tech._radius) {
+                    const card = document.querySelector(`[data-tech-index="${index}"]`);
+                    if (card) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        card.classList.add('highlighted');
+                        setTimeout(() => card.classList.remove('highlighted'), 2000);
+                    }
+                }
+            });
+        }
+
+        function showTooltip(text, x, y) {
+            removeTooltip();
+            tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = text;
+            document.body.appendChild(tooltip);
+
+            // Get tooltip dimensions after adding to DOM
+            const tooltipRect = tooltip.getBoundingClientRect();
+
+            // Position centered above the bullet
+            tooltip.style.left = (x + window.scrollX - tooltipRect.width / 2) + 'px';
+            tooltip.style.top = (y + window.scrollY - tooltipRect.height - 15) + 'px';
+        }
+
+        function removeTooltip() {
+            if (tooltip) {
+                tooltip.remove();
+                tooltip = null;
+            }
+        }
+
+        function highlightCard(index) {
+            unhighlightAllCards();
+            const card = document.querySelector(`[data-tech-index="${index}"]`);
+            if (card) {
+                card.classList.add('highlighted');
+            }
+        }
+
+        function unhighlightAllCards() {
+            document.querySelectorAll('.technology-card.highlighted').forEach(card => {
+                card.classList.remove('highlighted');
+            });
+        }
+
+        function renderTechnologies(data) {
+            // Group technologies by quadrant
+            const techsByQuadrant = {};
+            data.quadrants.forEach((quadrant, qIndex) => {
+                techsByQuadrant[qIndex] = [];
+            });
+
+            data.technologies.forEach((tech, index) => {
+                const quadrant = data.quadrants.find(q => q.name === tech.quadrant);
+                if (quadrant) {
+                    const quadrantIndex = data.quadrants.indexOf(quadrant);
+                    techsByQuadrant[quadrantIndex].push({ ...tech, index: index + 1 });
+                }
+            });
+
+            // Render each quadrant
+            data.quadrants.forEach((quadrant, quadrantIndex) => {
+                const list = document.getElementById(`quadrant-${quadrantIndex}-list`);
+                if (!list) return;
+
+                const techs = techsByQuadrant[quadrantIndex] || [];
+                techs.forEach((tech) => {
+                    const ring = data.rings.find(r => r.name === tech.ring);
+                    const card = document.createElement('div');
+                    card.className = 'technology-card';
+                    card.setAttribute('data-tech-index', tech.index - 1);
+                    card.title = `${tech.name} - ${tech.ring}`;
+
+                    card.innerHTML = `
+                        <div class="technology-header">
+                            <div class="technology-number" style="background-color: ${ring.color}">${tech.index}</div>
+                            <div class="technology-name">${tech.name}</div>
+                        </div>
+                    `;
+
+                    card.addEventListener('mouseenter', () => {
+                        const canvas = document.getElementById('radar-canvas');
+                        const radarTech = data.technologies[tech.index - 1];
+                        if (radarTech && radarTech._x && radarTech._y) {
+                            const rect = canvas.getBoundingClientRect();
+                            showTooltip(tech.name, rect.left + radarTech._x * rect.width / canvas.width,
+                                                  rect.top + radarTech._y * rect.height / canvas.height);
+                        }
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        removeTooltip();
+                    });
+
+                    list.appendChild(card);
+                });
+            });
+        }
+    </script>
+</body>
+</html>

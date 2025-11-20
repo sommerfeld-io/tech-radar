@@ -1,0 +1,263 @@
+{
+  "title": "Sommerfeld.io Tech Radar",
+  "version": "0.0.0",
+  "description": "This is the technology radar for the sommerfeld.io GitHub organization.\nIt provides an overview of technologies, tools, frameworks, and practices\nwe use, assess, or have in mind for future consideration.\n",
+  "copyright": "Copyright © sommerfeld.io",
+  "githubUrl": "https://github.com/sommerfeld-io",
+  "quadrants": [
+    {
+      "name": "Languages, Frameworks and Tooling",
+      "color": "#8e7cc3",
+      "description": "Programming languages, frameworks, and libraries we use to build software"
+    },
+    {
+      "name": "Development and Delivery Practices",
+      "color": "#6fa8dc",
+      "description": "Methodologies, practices, and approaches for software development and delivery"
+    },
+    {
+      "name": "Platforms",
+      "color": "#93c47d",
+      "description": "Infrastructure platforms, cloud services, and deployment environments"
+    },
+    {
+      "name": "Infrastructure",
+      "color": "#f6b26b",
+      "description": "Tools, automation, and infrastructure management solutions"
+    }
+  ],
+  "rings": [
+    {
+      "name": "Adopt",
+      "description": "Technologies we have high confidence in and use in production",
+      "color": "#6fae5e"
+    },
+    {
+      "name": "Trial",
+      "description": "Technologies worth pursuing, being used successfully in some projects",
+      "color": "#d4b636"
+    },
+    {
+      "name": "Assess",
+      "description": "Technologies worth exploring to understand their potential",
+      "color": "#e89850"
+    },
+    {
+      "name": "Hold",
+      "description": "Technologies to proceed with caution or phase out",
+      "color": "#c76b6b"
+    }
+  ],
+  "entries": [
+    {
+      "label": "Grafana k6",
+      "quadrant": 3,
+      "ring": 2,
+      "link": "#grafana-k6"
+    },
+    {
+      "label": "Vagrant",
+      "quadrant": 3,
+      "ring": 1,
+      "link": "#vagrant"
+    },
+    {
+      "label": "Material for MkDocs",
+      "quadrant": 3,
+      "ring": 1,
+      "link": "#material-for-mkdocs"
+    },
+    {
+      "label": "Loki",
+      "quadrant": 3,
+      "ring": 1,
+      "link": "#loki"
+    },
+    {
+      "label": "Grafana Alloy",
+      "quadrant": 3,
+      "ring": 1,
+      "link": "#grafana-alloy"
+    },
+    {
+      "label": "Docker + Docker Compose",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#docker-+-docker-compose"
+    },
+    {
+      "label": "Dev Container",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#dev-container"
+    },
+    {
+      "label": "Ansible",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#ansible"
+    },
+    {
+      "label": "Chef Inspec",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#chef-inspec"
+    },
+    {
+      "label": "Prometheus",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#prometheus"
+    },
+    {
+      "label": "Grafana",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#grafana"
+    },
+    {
+      "label": "GitHub Actions",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#github-actions"
+    },
+    {
+      "label": "Taskfile (Task)",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#taskfile-task"
+    },
+    {
+      "label": "Dependabot",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#dependabot"
+    },
+    {
+      "label": "Arch Linux",
+      "quadrant": 2,
+      "ring": 2,
+      "link": "#arch-linux"
+    },
+    {
+      "label": "Kubernetes",
+      "quadrant": 2,
+      "ring": 2,
+      "link": "#kubernetes"
+    },
+    {
+      "label": "ArgoCD",
+      "quadrant": 2,
+      "ring": 2,
+      "link": "#argocd"
+    },
+    {
+      "label": "SonarCloud",
+      "quadrant": 2,
+      "ring": 2,
+      "link": "#sonarcloud"
+    },
+    {
+      "label": "Ubuntu",
+      "quadrant": 2,
+      "ring": 0,
+      "link": "#ubuntu"
+    },
+    {
+      "label": "Raspberry Pi",
+      "quadrant": 2,
+      "ring": 0,
+      "link": "#raspberry-pi"
+    },
+    {
+      "label": "GitHub",
+      "quadrant": 2,
+      "ring": 0,
+      "link": "#github"
+    },
+    {
+      "label": "GitHub Pages",
+      "quadrant": 2,
+      "ring": 0,
+      "link": "#github-pages"
+    },
+    {
+      "label": "DockerHub",
+      "quadrant": 2,
+      "ring": 0,
+      "link": "#dockerhub"
+    },
+    {
+      "label": "TDD",
+      "quadrant": 1,
+      "ring": 1,
+      "link": "#tdd"
+    },
+    {
+      "label": "GitOps",
+      "quadrant": 1,
+      "ring": 1,
+      "link": "#gitops"
+    },
+    {
+      "label": "Continuous Integration & Continuous Delivery",
+      "quadrant": 1,
+      "ring": 1,
+      "link": "#continuous-integration-&-continuous-delivery"
+    },
+    {
+      "label": "Infrastructure as Code",
+      "quadrant": 1,
+      "ring": 0,
+      "link": "#infrastructure-as-code"
+    },
+    {
+      "label": "Docs as Code",
+      "quadrant": 1,
+      "ring": 0,
+      "link": "#docs-as-code"
+    },
+    {
+      "label": "Trunk Based Development",
+      "quadrant": 1,
+      "ring": 0,
+      "link": "#trunk-based-development"
+    },
+    {
+      "label": "Java",
+      "quadrant": 0,
+      "ring": 3,
+      "link": "#java"
+    },
+    {
+      "label": "Kotlin",
+      "quadrant": 0,
+      "ring": 3,
+      "link": "#kotlin"
+    },
+    {
+      "label": "Golang",
+      "quadrant": 0,
+      "ring": 2,
+      "link": "#golang"
+    },
+    {
+      "label": "Bash",
+      "quadrant": 0,
+      "ring": 0,
+      "link": "#bash"
+    },
+    {
+      "label": "Pre Commit",
+      "quadrant": 0,
+      "ring": 0,
+      "link": "#pre-commit"
+    },
+    {
+      "label": "GitHub Copilot",
+      "quadrant": 0,
+      "ring": 0,
+      "link": "#github-copilot"
+    }
+  ]
+}

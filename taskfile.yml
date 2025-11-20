@@ -36,6 +36,8 @@ tasks:
       - rm -rf node_modules
       - rm -rf target
       - find . -type f -exec chmod +r {} +
+      - find . -type d -exec chmod +r {} +
+      - find . -name "*.sh" -type f -exec chmod +x {} +
 
   # ===============================================================================================
 
@@ -47,30 +49,16 @@ tasks:
 
   # ===============================================================================================
 
-  docs:generate:
-    desc: 'Generate Markdown files for documentation'
-    cmds:
-      - echo "Collecting documentation from other Markdown files ..."
-      - task: common:copy
-        vars: { SRC: docs/index.md, DEST: README.md }
-      - task: common:copy
-        vars: { SRC: docs/license.md, DEST: LICENSE.md }
-        # TODO See https://github.com/sommerfeld-io/configs-homelab for auto-generating nav entries
-        # TODO and docs from other README files or remove this comment
-
-  docs:run:
-    desc: 'Run the documentation server'
-    cmds:
-      - task: docs:generate
-      - docker compose up docs-dev-server
-
-  # ===============================================================================================
-
-  build:docker:
-    desc: 'Lint and build container COMPOSE_SERVICE'
-    vars:
-      COMPOSE_SERVICE: 'app'
+  radar:build:
+    desc: 'Build the tech radar from YAML data files'
     cmds:
       - task: cleanup
-      - docker compose up {{ .COMPOSE_SERVICE }}-lint-dockerfile --exit-code-from {{ .COMPOSE_SERVICE }}-lint-dockerfile
-      - docker compose build {{ .COMPOSE_SERVICE }}
+      - npm install
+      - npm run build:radar
+
+  radar:run:
+    desc: 'Build and serve the tech radar on http://localhost:8080'
+    cmds:
+      - task: radar:build
+      - echo "Starting web server on http://localhost:8080"
+      - npm run serve:radar
