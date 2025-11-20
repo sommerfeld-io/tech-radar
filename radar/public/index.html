@@ -13,16 +13,15 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: #f5f5f5;
-            color: #333;
+            background: #111317;
+            color: rgba(226, 228, 233, 0.82);
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: #111317;
+            color: rgba(226, 228, 233, 0.82);
             padding: 2rem;
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
 
         .header h1 {
@@ -58,21 +57,20 @@
         }
 
         .legend-section {
-            background: white;
+            background: #1E2129;
             padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
 
         .legend-section h3 {
             margin-bottom: 0.75rem;
             font-size: 1.1rem;
-            color: #667eea;
+            color: rgb(255, 110, 66);
         }
 
         .legend-item {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             margin: 0.5rem 0;
             font-size: 0.9rem;
         }
@@ -81,477 +79,544 @@
             width: 20px;
             height: 20px;
             margin-right: 0.5rem;
-            border-radius: 3px;
+            flex-shrink: 0;
+            margin-top: 2px;
         }
 
         .legend-description {
             font-size: 0.85rem;
-            color: #666;
-            margin-left: 1.75rem;
+            color: rgba(226, 228, 233, 0.6);
             margin-top: 0.25rem;
         }
 
+        .legend-item-content {
+            display: flex;
+            flex-direction: column;
+        }
+
         #radar-container {
-            background: white;
-            border-radius: 8px;
+            background: #1E2129;
             padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
             display: flex;
             justify-content: center;
+            align-items: center;
             margin-bottom: 2rem;
+            min-height: 600px;
         }
 
         #radar-canvas {
             max-width: 100%;
-            border: 1px solid #e0e0e0;
+            height: auto;
         }
 
-        .technology-list {
-            background: white;
-            border-radius: 8px;
+        .technologies {
+            background: #1E2129;
             padding: 2rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        .technology-list h2 {
+        .technologies h2 {
+            font-size: 1.5rem;
             margin-bottom: 1.5rem;
-            color: #667eea;
+            color: rgb(255, 110, 66);
         }
 
-        .tech-grid {
+        .technology-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 1rem;
         }
 
-
-
-        .tech-item {
+        .technology-card {
+            background: #1E2129;
             padding: 1rem;
-            background: #f9f9f9;
-            border-radius: 6px;
-            border-left: 4px solid #667eea;
-            transition: all 0.2s ease;
+            border-left: 4px solid;
             cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .tech-item:hover {
-            transform: translateX(5px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            background: #e8eaf6;
+        .technology-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
 
-        .tech-item.highlight {
-            background: #e8eaf6;
-            transform: translateX(5px);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        .technology-card.highlighted {
+            box-shadow: 0 0 0 3px rgb(255, 110, 66);
         }
 
-        .tech-item h4 {
-            font-size: 1rem;
-            margin-bottom: 0.5rem;
-            color: #333;
+        .technology-header {
             display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .technology-number {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-right: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .technology-name {
+            font-weight: 600;
+            font-size: 1rem;
+            flex-grow: 1;
+            color: rgba(226, 228, 233, 0.95);
+        }
+
+        .technology-meta {
+            font-size: 0.85rem;
+            color: rgba(226, 228, 233, 0.6);
+            margin-left: 2.25rem;
+        }
+
+        .technology-movement {
+            display: inline-block;
+            margin-left: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .moved-in {
+            color: #4ade80;
+        }
+
+        .moved-out {
+            color: #f87171;
+        }
+
+        .new {
+            color: #facc15;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            font-size: 0.9rem;
+            color: rgba(226, 228, 233, 0.6);
+        }
+
+        .footer a {
+            color: rgb(255, 110, 66);
+            text-decoration: none;
+            display: inline-flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .tech-number {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            background: #667eea;
-            color: white;
-            border-radius: 50%;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-
-        .tech-item-meta {
-            font-size: 0.85rem;
-            color: #666;
-        }
-
-        .copyright {
-            text-align: center;
-            padding: 2rem 0;
-            color: #666;
-            font-size: 0.9rem;
-        }
-
-        .copyright a {
-            color: #667eea;
-            text-decoration: none;
-        }
-
-        .copyright a:hover {
+        .footer a:hover {
+            color: rgb(255, 110, 66);
             text-decoration: underline;
         }
 
-        .org-link {
-            display: inline-block;
-            margin-left: 0.5rem;
+        .github-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: #1E2129;
+            color: rgba(226, 228, 233, 0.95);
+            padding: 0.5rem 0.75rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            pointer-events: none;
+            z-index: 1000;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255, 110, 66, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .technology-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .legend {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1 id="radar-title">Tech Radar</h1>
-        <p id="radar-description">Loading...</p>
-        <div class="version" id="radar-version"></div>
+        <h1>Sommerfeld.io Tech Radar</h1>
+        <p>This is the technology radar for the sommerfeld.io GitHub organization. It provides an overview of technologies, tools, frameworks, and practices we use, assess, or have on our radar for future consideration.</p>
+        <div class="version">Version <span id="radar-version">1.0.0</span></div>
     </div>
 
     <div class="container">
-        <div class="legend" id="legend"></div>
+        <div class="legend">
+            <div class="legend-section">
+                <h3>Rings</h3>
+                <div id="rings-legend"></div>
+            </div>
+            <div class="legend-section">
+                <h3>Quadrants</h3>
+                <div id="quadrants-legend"></div>
+            </div>
+        </div>
 
         <div id="radar-container">
             <canvas id="radar-canvas" width="800" height="800"></canvas>
         </div>
 
-        <div class="technology-list">
+        <div class="technologies">
             <h2>All Technologies</h2>
-            <div id="tech-list"></div>
-        </div>
-
-        <div class="copyright">
-            Copyright © sommerfeld.io<br>
-            <a href="https://github.com/sommerfeld-io" target="_blank">
-                <svg height="16" viewBox="0 0 16 16" width="16" style="vertical-align: text-bottom; margin-right: 4px; fill: currentColor;">
-                    <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
-                </svg>
-                Sommerfeld.io on GitHub
-            </a>
+            <div class="technology-grid" id="technology-list"></div>
         </div>
     </div>
 
-    <script>
-        let radarData = null;
-        let blipPositions = [];
+    <div class="footer">
+        <div>Copyright © sommerfeld.io</div>
+        <a href="https://github.com/sommerfeld-io" target="_blank" rel="noopener noreferrer">
+            <svg class="github-icon" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+            Sommerfeld.io on GitHub
+        </a>
+    </div>
 
-        // Load data
+    <script>
+        const movementSymbols = {
+            'in': '▲',
+            'out': '▼',
+            'new': '★',
+            'none': '⬤'
+        };
+
+        function getMovementClass(movement) {
+            if (movement === 'in') return 'moved-in';
+            if (movement === 'out') return 'moved-out';
+            if (movement === 'new') return 'new';
+            return '';
+        }
+
+        function getMovementSymbol(movement) {
+            return movementSymbols[movement] || movementSymbols.none;
+        }
+
+        let radarData = null;
+        let hoveredTech = null;
+        let tooltip = null;
+
         fetch('radar-data.json')
-            .then(r => r.json())
+            .then(response => response.json())
             .then(data => {
                 radarData = data;
-                updateHeader();
-                renderLegend();
-                renderRadar();
-                renderTechnologyList();
+                document.getElementById('radar-version').textContent = data.version;
+                renderLegend(data);
+                renderRadar(data);
+                renderTechnologies(data);
             })
-            .catch(err => {
-                console.error('Error loading radar data:', err);
-                document.getElementById('radar-container').innerHTML = 
-                    '<p style="color: red; text-align: center;">Error loading radar data. Make sure to run "npm run build:radar" first.</p>';
-            });
+            .catch(error => console.error('Error loading radar data:', error));
 
-        function updateHeader() {
-            document.getElementById('radar-title').textContent = radarData.title;
-            document.getElementById('radar-description').textContent = radarData.description.trim();
-            document.getElementById('radar-version').textContent = 'Version ' + radarData.version;
-        }
+        function renderLegend(data) {
+            const ringsLegend = document.getElementById('rings-legend');
+            const quadrantsLegend = document.getElementById('quadrants-legend');
 
-        function renderLegend() {
-            const container = document.getElementById('legend');
-            
-            // Rings legend
-            let ringsHtml = '<div class="legend-section"><h3>Rings</h3>';
-            radarData.rings.forEach(ring => {
-                ringsHtml += `
-                    <div class="legend-item">
-                        <div class="color-box" style="background: ${ring.color};"></div>
-                        <span><strong>${ring.name}</strong></span>
-                    </div>
-                    <div class="legend-description">${ring.description}</div>
-                `;
-            });
-            ringsHtml += '</div>';
-
-            // Quadrants legend
-            let quadrantsHtml = '<div class="legend-section"><h3>Quadrants</h3>';
-            radarData.quadrants.forEach(quadrant => {
-                quadrantsHtml += `
-                    <div class="legend-item">
-                        <div class="color-box" style="background: ${quadrant.color};"></div>
-                        <span><strong>${quadrant.name}</strong></span>
+            data.rings.forEach(ring => {
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+                item.innerHTML = `
+                    <div class="color-box" style="background-color: ${ring.color}"></div>
+                    <div class="legend-item-content">
+                        <div><strong>${ring.name}</strong></div>
+                        <div class="legend-description">${ring.description}</div>
                     </div>
                 `;
+                ringsLegend.appendChild(item);
             });
-            quadrantsHtml += '</div>';
 
-            container.innerHTML = ringsHtml + quadrantsHtml;
+            data.quadrants.forEach(quadrant => {
+                const item = document.createElement('div');
+                item.className = 'legend-item';
+                item.innerHTML = `
+                    <div class="color-box" style="background-color: ${quadrant.color}"></div>
+                    <div class="legend-item-content">
+                        <div><strong>${quadrant.name}</strong></div>
+                        <div class="legend-description">${quadrant.description || ''}</div>
+                    </div>
+                `;
+                quadrantsLegend.appendChild(item);
+            });
         }
 
-        function renderRadar() {
+        function renderRadar(data) {
             const canvas = document.getElementById('radar-canvas');
             const ctx = canvas.getContext('2d');
-            const width = canvas.width;
-            const height = canvas.height;
-            const centerX = width / 2;
-            const centerY = height / 2;
-            const maxRadius = Math.min(width, height) / 2 - 50;
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const maxRadius = Math.min(centerX, centerY) - 50;
 
             // Clear canvas
-            ctx.clearRect(0, 0, width, height);
-            blipPositions = [];
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Draw rings
-            const ringCount = radarData.rings.length;
-            for (let i = ringCount; i > 0; i--) {
-                const radius = (maxRadius / ringCount) * i;
-                const ring = radarData.rings[i - 1];
+            // Draw rings with gradient (blue outside to green inside)
+            const ringCount = data.rings.length;
+            for (let i = ringCount - 1; i >= 0; i--) {
+                const ring = data.rings[i];
+                const radius = maxRadius * ((i + 1) / ringCount);
                 
-                // Fill
+                const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
+                
+                // Outer ring is more blue, inner rings become more green
+                const blueRatio = i / (ringCount - 1);
+                const greenRatio = 1 - blueRatio;
+                
+                const r = Math.round(50 * blueRatio + 100 * greenRatio);
+                const g = Math.round(150 * blueRatio + 200 * greenRatio);
+                const b = Math.round(200 * blueRatio + 100 * greenRatio);
+                
+                gradient.addColorStop(0, `rgba(${r + 20}, ${g + 20}, ${b + 20}, 0.3)`);
+                gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0.3)`);
+                
+                ctx.fillStyle = gradient;
                 ctx.beginPath();
                 ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-                ctx.fillStyle = ring.color + '26'; // 26 = 15% opacity
                 ctx.fill();
-                
-                // Stroke
-                ctx.strokeStyle = ring.color;
-                ctx.lineWidth = 2;
+
+                ctx.strokeStyle = 'rgba(226, 228, 233, 0.2)';
+                ctx.lineWidth = 1;
                 ctx.stroke();
 
-                // Add ring labels
-                ctx.fillStyle = '#666';
-                ctx.font = 'bold 14px sans-serif';
+                // Ring label
+                ctx.fillStyle = 'rgba(226, 228, 233, 0.6)';
+                ctx.font = '12px sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillText(ring.name, centerX, centerY - radius + 20);
+                ctx.fillText(ring.name, centerX, centerY - radius + 15);
             }
 
             // Draw quadrant lines
-            ctx.strokeStyle = '#ccc';
-            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(226, 228, 233, 0.3)';
+            ctx.lineWidth = 1;
             ctx.beginPath();
-            ctx.moveTo(centerX, 0);
-            ctx.lineTo(centerX, height);
-            ctx.stroke();
-            
-            ctx.beginPath();
-            ctx.moveTo(0, centerY);
-            ctx.lineTo(width, centerY);
+            ctx.moveTo(centerX, centerY - maxRadius);
+            ctx.lineTo(centerX, centerY + maxRadius);
+            ctx.moveTo(centerX - maxRadius, centerY);
+            ctx.lineTo(centerX + maxRadius, centerY);
             ctx.stroke();
 
-            // Add quadrant labels
-            const quadrantLabelOffset = maxRadius * 0.85;
+            // Draw quadrant labels
             const quadrantPositions = [
-                { x: centerX + quadrantLabelOffset / 1.5, y: centerY - quadrantLabelOffset / 1.5 },
-                { x: centerX - quadrantLabelOffset / 1.5, y: centerY - quadrantLabelOffset / 1.5 },
-                { x: centerX - quadrantLabelOffset / 1.5, y: centerY + quadrantLabelOffset / 1.5 },
-                { x: centerX + quadrantLabelOffset / 1.5, y: centerY + quadrantLabelOffset / 1.5 }
+                { x: centerX + maxRadius * 0.7, y: centerY - maxRadius * 0.7 }, // Top right
+                { x: centerX + maxRadius * 0.7, y: centerY + maxRadius * 0.7 }, // Bottom right
+                { x: centerX - maxRadius * 0.7, y: centerY + maxRadius * 0.7 }, // Bottom left
+                { x: centerX - maxRadius * 0.7, y: centerY - maxRadius * 0.7 }  // Top left
             ];
 
-            ctx.font = 'bold 18px sans-serif';
-            ctx.textAlign = 'center';
-            radarData.quadrants.forEach((quadrant, i) => {
+            data.quadrants.forEach((quadrant, index) => {
+                const pos = quadrantPositions[index];
                 ctx.fillStyle = quadrant.color;
-                ctx.fillText(quadrant.name, quadrantPositions[i].x, quadrantPositions[i].y);
+                ctx.font = 'bold 14px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(quadrant.name, pos.x, pos.y);
             });
 
-            // Plot blips with numbers
-            radarData.entries.forEach((entry, index) => {
-                const angle = getBlipAngle(entry.quadrant);
-                const radius = getBlipRadius(entry.ring, maxRadius, ringCount);
-                
+            // Draw technologies
+            data.technologies.forEach((tech, index) => {
+                const quadrant = data.quadrants.find(q => q.name === tech.quadrant);
+                const ring = data.rings.find(r => r.name === tech.ring);
+                if (!quadrant || !ring) return;
+
+                const ringIndex = data.rings.indexOf(ring);
+                const quadrantIndex = data.quadrants.indexOf(quadrant);
+
+                const innerRadius = maxRadius * (ringIndex / ringCount);
+                const outerRadius = maxRadius * ((ringIndex + 1) / ringCount);
+                const radius = (innerRadius + outerRadius) / 2;
+
+                const angleOffset = (Math.PI / 2) * quadrantIndex;
+                const angleRange = Math.PI / 2;
+                const angle = angleOffset + (Math.random() * angleRange * 0.6 + angleRange * 0.2);
+
                 const x = centerX + radius * Math.cos(angle);
                 const y = centerY + radius * Math.sin(angle);
 
-                // Store blip position for hover detection
-                blipPositions.push({ x, y, index, radius: 12 });
+                tech._x = x;
+                tech._y = y;
+                tech._radius = 15;
 
-                // Draw blip circle
-                const quadrant = radarData.quadrants[entry.quadrant];
-                ctx.beginPath();
-                ctx.arc(x, y, 12, 0, 2 * Math.PI);
+                // Draw blip
                 ctx.fillStyle = quadrant.color;
+                ctx.beginPath();
+                ctx.arc(x, y, tech._radius, 0, 2 * Math.PI);
                 ctx.fill();
-                ctx.strokeStyle = 'white';
-                ctx.lineWidth = 2;
-                ctx.stroke();
 
-                // Draw movement indicator if applicable
-                if (entry.moved !== 0) {
-                    const triangleSize = 6;
-                    const triangleOffset = 16;
-                    ctx.fillStyle = entry.moved > 0 ? '#4CAF50' : '#F44336';
-                    ctx.beginPath();
-                    if (entry.moved > 0) {
-                        // Triangle pointing up (moved in)
-                        ctx.moveTo(x, y - triangleOffset);
-                        ctx.lineTo(x - triangleSize, y - triangleOffset + triangleSize);
-                        ctx.lineTo(x + triangleSize, y - triangleOffset + triangleSize);
-                    } else {
-                        // Triangle pointing down (moved out)
-                        ctx.moveTo(x, y + triangleOffset);
-                        ctx.lineTo(x - triangleSize, y + triangleOffset - triangleSize);
-                        ctx.lineTo(x + triangleSize, y + triangleOffset - triangleSize);
-                    }
-                    ctx.closePath();
-                    ctx.fill();
-                }
-
-                // Draw number inside blip
+                // Draw number
                 ctx.fillStyle = 'white';
                 ctx.font = 'bold 12px sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(index + 1, x, y);
+
+                // Draw movement indicator
+                const movement = tech.moved || 'none';
+                const symbol = getMovementSymbol(movement);
+                if (symbol !== '⬤') {
+                    ctx.font = 'bold 14px sans-serif';
+                    if (movement === 'in') {
+                        ctx.fillStyle = '#4ade80';
+                        ctx.fillText(symbol, x, y - 22);
+                    } else if (movement === 'out') {
+                        ctx.fillStyle = '#f87171';
+                        ctx.fillText(symbol, x, y + 22);
+                    } else if (movement === 'new') {
+                        ctx.fillStyle = '#facc15';
+                        ctx.fillText(symbol, x - 20, y - 5);
+                    }
+                }
             });
 
-            // Add canvas hover event
-            canvas.addEventListener('mousemove', handleCanvasHover);
-            canvas.addEventListener('mouseleave', clearHoverHighlight);
+            // Add canvas hover and click handlers
+            canvas.addEventListener('mousemove', (e) => handleCanvasHover(e, canvas, data));
+            canvas.addEventListener('mouseleave', () => {
+                removeTooltip();
+                unhighlightAllCards();
+            });
+            canvas.addEventListener('click', (e) => handleCanvasClick(e, canvas, data));
         }
 
-        function handleCanvasHover(event) {
-            const canvas = event.target;
+        function handleCanvasHover(e, canvas, data) {
             const rect = canvas.getBoundingClientRect();
-            const x = event.clientX - rect.left;
-            const y = event.clientY - rect.top;
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
 
-            // Check if hovering over any blip
-            let hoveredIndex = -1;
-            for (const blip of blipPositions) {
-                const distance = Math.sqrt(Math.pow(x - blip.x, 2) + Math.pow(y - blip.y, 2));
-                if (distance <= blip.radius) {
-                    hoveredIndex = blip.index;
-                    break;
+            let found = false;
+            data.technologies.forEach((tech, index) => {
+                const dx = x - tech._x;
+                const dy = y - tech._y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < tech._radius) {
+                    found = true;
+                    showTooltip(tech.name, e.clientX, e.clientY);
+                    highlightCard(index);
+                    canvas.style.cursor = 'pointer';
                 }
-            }
-
-            // Clear all highlights
-            document.querySelectorAll('.tech-item').forEach(item => {
-                item.classList.remove('highlight');
             });
 
-            // Highlight corresponding tech item if hovering over a blip
-            if (hoveredIndex >= 0) {
-                canvas.style.cursor = 'pointer';
-                const techItem = document.querySelector(`[data-index="${hoveredIndex}"]`);
-                if (techItem) {
-                    techItem.classList.add('highlight');
-                    techItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                }
-            } else {
+            if (!found) {
+                removeTooltip();
+                unhighlightAllCards();
                 canvas.style.cursor = 'default';
             }
         }
 
-        function clearHoverHighlight() {
-            document.querySelectorAll('.tech-item').forEach(item => {
-                item.classList.remove('highlight');
-            });
-            
-            // Remove popover if it exists
-            const popover = document.getElementById('tech-popover');
-            if (popover) {
-                popover.remove();
-            }
-        }
+        function handleCanvasClick(e, canvas, data) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            const x = (e.clientX - rect.left) * scaleX;
+            const y = (e.clientY - rect.top) * scaleY;
 
-        function getBlipAngle(quadrant) {
-            const baseAngles = [
-                -Math.PI / 4,      // Quadrant 0 (top-right)
-                -3 * Math.PI / 4,  // Quadrant 1 (top-left)
-                3 * Math.PI / 4,   // Quadrant 2 (bottom-left)
-                Math.PI / 4        // Quadrant 3 (bottom-right)
-            ];
-            
-            const spread = Math.PI / 3;
-            return baseAngles[quadrant] + (Math.random() - 0.5) * spread;
-        }
+            data.technologies.forEach((tech, index) => {
+                const dx = x - tech._x;
+                const dy = y - tech._y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
 
-        function getBlipRadius(ring, maxRadius, ringCount) {
-            const ringWidth = maxRadius / ringCount;
-            const minRadius = ring * ringWidth + ringWidth * 0.2;
-            const maxRingRadius = (ring + 1) * ringWidth - ringWidth * 0.2;
-            return minRadius + Math.random() * (maxRingRadius - minRadius);
-        }
-
-        function highlightBlip(index) {
-            // Show popover with technology name above the blip
-            const canvas = document.getElementById('radar-canvas');
-            const blip = blipPositions[index];
-            if (!blip) return;
-            
-            // Remove any existing popover
-            const existingPopover = document.getElementById('tech-popover');
-            if (existingPopover) {
-                existingPopover.remove();
-            }
-            
-            // Get technology name
-            const tech = radarData.technologies[index];
-            if (!tech) return;
-            
-            // Create popover element
-            const popover = document.createElement('div');
-            popover.id = 'tech-popover';
-            popover.textContent = tech.name;
-            popover.style.cssText = `
-                position: absolute;
-                background: #1f2937;
-                color: white;
-                padding: 0.5rem 0.75rem;
-                border-radius: 0.375rem;
-                font-size: 0.875rem;
-                font-weight: 500;
-                pointer-events: none;
-                z-index: 1000;
-                white-space: nowrap;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            `;
-            
-            // Position the popover above the blip
-            const canvasRect = canvas.getBoundingClientRect();
-            const popoverX = canvasRect.left + blip.x;
-            const popoverY = canvasRect.top + blip.y - 35; // 35px above the blip
-            
-            popover.style.left = `${popoverX}px`;
-            popover.style.top = `${popoverY}px`;
-            popover.style.transform = 'translateX(-50%)';
-            
-            document.body.appendChild(popover);
-        }
-
-        function renderTechnologyList() {
-            const container = document.getElementById('tech-list');
-            
-            // Sort all entries by their index (number)
-            const sortedEntries = radarData.entries
-                .map((entry, index) => ({ ...entry, index }))
-                .sort((a, b) => a.index - b.index);
-
-            // Generate HTML
-            let html = '<div class="tech-grid">';
-            sortedEntries.forEach(entry => {
-                const ring = radarData.rings[entry.ring];
-                const quadrant = radarData.quadrants[entry.quadrant];
-                let movementIndicator = '';
-                if (entry.moved > 0) {
-                    movementIndicator = '<span style="color: #4CAF50; font-weight: bold; margin-left: 8px;" title="Moved in">▲</span>';
-                } else if (entry.moved < 0) {
-                    movementIndicator = '<span style="color: #F44336; font-weight: bold; margin-left: 8px;" title="Moved out">▼</span>';
+                if (distance < tech._radius) {
+                    const card = document.querySelector(`[data-tech-index="${index}"]`);
+                    if (card) {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        card.classList.add('highlighted');
+                        setTimeout(() => card.classList.remove('highlighted'), 2000);
+                    }
                 }
-                html += `
-                    <div class="tech-item" data-index="${entry.index}" 
-                         style="border-left-color: ${quadrant.color};"
-                         onmouseenter="highlightBlip(${entry.index})" 
-                         onmouseleave="renderRadar()">
-                        <h4>
-                            <span class="tech-number" style="background: ${quadrant.color};">${entry.index + 1}</span>
-                            ${entry.label}${movementIndicator}
-                        </h4>
-                        <div class="tech-item-meta">
-                            ${quadrant.name} • ${ring.name}
-                        </div>
-                    </div>
-                `;
             });
-            html += '</div>';
+        }
+
+        function showTooltip(text, x, y) {
+            removeTooltip();
+            tooltip = document.createElement('div');
+            tooltip.className = 'tooltip';
+            tooltip.textContent = text;
+            tooltip.style.left = (x + 10) + 'px';
+            tooltip.style.top = (y - 30) + 'px';
+            document.body.appendChild(tooltip);
+        }
+
+        function removeTooltip() {
+            if (tooltip) {
+                tooltip.remove();
+                tooltip = null;
+            }
+        }
+
+        function highlightCard(index) {
+            unhighlightAllCards();
+            const card = document.querySelector(`[data-tech-index="${index}"]`);
+            if (card) {
+                card.classList.add('highlighted');
+            }
+        }
+
+        function unhighlightAllCards() {
+            document.querySelectorAll('.technology-card.highlighted').forEach(card => {
+                card.classList.remove('highlighted');
+            });
+        }
+
+        function renderTechnologies(data) {
+            const list = document.getElementById('technology-list');
             
-            container.innerHTML = html;
+            // Sort by number (index)
+            const sortedTechs = [...data.technologies].map((tech, index) => ({
+                ...tech,
+                index: index + 1
+            }));
+
+            sortedTechs.forEach((tech) => {
+                const quadrant = data.quadrants.find(q => q.name === tech.quadrant);
+                const card = document.createElement('div');
+                card.className = 'technology-card';
+                card.style.borderLeftColor = quadrant.color;
+                card.setAttribute('data-tech-index', tech.index - 1);
+
+                const movement = tech.moved || 'none';
+                const movementClass = getMovementClass(movement);
+                const movementSymbol = getMovementSymbol(movement);
+                const movementHTML = movementSymbol !== '⬤' ? 
+                    `<span class="technology-movement ${movementClass}">${movementSymbol}</span>` : '';
+
+                card.innerHTML = `
+                    <div class="technology-header">
+                        <div class="technology-number" style="background-color: ${quadrant.color}">${tech.index}</div>
+                        <div class="technology-name">${tech.name}${movementHTML}</div>
+                    </div>
+                    <div class="technology-meta">${tech.quadrant} • ${tech.ring}</div>
+                `;
+
+                card.addEventListener('mouseenter', () => {
+                    const canvas = document.getElementById('radar-canvas');
+                    const radarTech = data.technologies[tech.index - 1];
+                    if (radarTech && radarTech._x && radarTech._y) {
+                        const rect = canvas.getBoundingClientRect();
+                        showTooltip(tech.name, rect.left + radarTech._x * rect.width / canvas.width, 
+                                              rect.top + radarTech._y * rect.height / canvas.height);
+                    }
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    removeTooltip();
+                });
+
+                list.appendChild(card);
+            });
         }
     </script>
 </body>

@@ -29,8 +29,9 @@ function transformToRadarFormat(radarData) {
   // Transform technologies
   const entries = radarData.technologies.map((tech) => {
     let movedValue = 0;
-    if (tech.moved === 'in') movedValue = 1;
-    else if (tech.moved === 'out') movedValue = -1;
+    if (tech.moved === 'up') movedValue = 1;
+    else if (tech.moved === 'down') movedValue = -1;
+    else if (tech.moved === 'new') movedValue = 2;
     
     return {
       label: tech.name,

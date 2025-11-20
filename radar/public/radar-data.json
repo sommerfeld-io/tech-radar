@@ -4,20 +4,24 @@
   "description": "This is the technology radar for the sommerfeld.io GitHub organization.\nIt provides an overview of technologies, tools, frameworks, and practices\nwe use, assess, or have on our radar for future consideration.\n",
   "quadrants": [
     {
-      "name": "Languages",
-      "color": "#8e7cc3"
+      "name": "Languages & Frameworks",
+      "color": "#8e7cc3",
+      "description": "Programming languages, frameworks, and libraries we use to build software"
     },
     {
-      "name": "Tools",
-      "color": "#6fa8dc"
+      "name": "Development and Delivery Practices",
+      "color": "#6fa8dc",
+      "description": "Methodologies, practices, and approaches for software development and delivery"
     },
     {
       "name": "Platforms",
-      "color": "#93c47d"
+      "color": "#93c47d",
+      "description": "Infrastructure platforms, cloud services, and deployment environments"
     },
     {
-      "name": "Methodologies",
-      "color": "#f6b26b"
+      "name": "Infrastructure & Tooling",
+      "color": "#f6b26b",
+      "description": "Tools, automation, and infrastructure management solutions"
     }
   ],
   "rings": [
@@ -68,33 +72,33 @@
       "label": "GitHub Actions",
       "quadrant": 2,
       "ring": 0,
-      "moved": 0,
+      "moved": 2,
       "link": "#github-actions"
     },
     {
       "label": "Taskfile (Task)",
-      "quadrant": 1,
+      "quadrant": 3,
       "ring": 0,
       "moved": 0,
       "link": "#taskfile-task"
     },
     {
       "label": "semantic-release",
-      "quadrant": 1,
+      "quadrant": 3,
       "ring": 0,
       "moved": 0,
       "link": "#semantic-release"
     },
     {
       "label": "yamllint",
-      "quadrant": 1,
+      "quadrant": 3,
       "ring": 0,
       "moved": 0,
       "link": "#yamllint"
     },
     {
       "label": "MkDocs",
-      "quadrant": 1,
+      "quadrant": 3,
       "ring": 1,
       "moved": -1,
       "link": "#mkdocs"
