@@ -36,6 +36,8 @@ tasks:
       - rm -rf node_modules
       - rm -rf target
       - find . -type f -exec chmod +r {} +
+      - find . -type d -exec chmod +r {} +
+      - find . -name "*.sh" -type f -exec chmod +x {} +
 
   # ===============================================================================================
 
@@ -60,5 +62,3 @@ tasks:
       - task: radar:build
       - echo "Starting web server on http://localhost:8080"
       - npm run serve:radar
-
-  # ===============================================================================================

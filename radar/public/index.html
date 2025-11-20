@@ -27,10 +27,10 @@
 
         .github-corner {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            width: 40px;
-            height: 40px;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 1.5rem;
+            height: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -49,8 +49,8 @@
         }
 
         .github-corner svg {
-            width: 32px;
-            height: 32px;
+            width: 1.5rem;
+            height: 1.5rem;
             fill: currentColor;
         }
 
@@ -95,7 +95,7 @@
         .legend-section h3 {
             margin-bottom: 0.75rem;
             font-size: 1.1rem;
-            color: rgb(255, 110, 66);
+            color: rgb(94, 139, 222);
         }
 
         .legend-item {
@@ -149,7 +149,7 @@
         .technologies h2 {
             font-size: 1.5rem;
             margin-bottom: 1.5rem;
-            color: rgb(255, 110, 66);
+            color: rgb(94, 139, 222);
         }
 
         .technology-grid {
@@ -162,6 +162,9 @@
             background: #1E2129;
             padding: 1rem;
             border-left: 4px solid;
+            border-top: 1px solid #111317;
+            border-right: 1px solid #111317;
+            border-bottom: 1px solid #111317;
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
         }
@@ -169,10 +172,13 @@
         .technology-card:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            background: #111317;
         }
 
         .technology-card.highlighted {
-            box-shadow: 0 0 0 3px rgb(255, 110, 66);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            background: #111317;
         }
 
         .technology-header {
@@ -207,24 +213,6 @@
             margin-left: 2.25rem;
         }
 
-        .technology-movement {
-            display: inline-block;
-            margin-left: 0.5rem;
-            font-size: 1.1rem;
-        }
-
-        .moved-in {
-            color: #4ade80;
-        }
-
-        .moved-out {
-            color: #f87171;
-        }
-
-        .new {
-            color: #facc15;
-        }
-
         .footer {
             text-align: center;
             padding: 2rem;
@@ -233,43 +221,13 @@
         }
 
         .footer a {
-            color: rgb(255, 110, 66);
+            color: rgb(94, 139, 222);
             text-decoration: none;
         }
 
         .footer a:hover {
             color: rgb(255, 110, 66);
-            text-decoration: underline;
-        }
-
-        .github-corner {
-            position: absolute;
-            top: 0;
-            right: 0;
-            z-index: 100;
-        }
-
-        .github-corner a {
-            display: block;
-            width: 80px;
-            height: 80px;
-            position: relative;
-        }
-
-        .github-corner svg {
-            fill: rgba(226, 228, 233, 0.82);
-            color: #111317;
-            position: absolute;
-            top: 0;
-            border: 0;
-            right: 0;
-            width: 80px;
-            height: 80px;
-            transition: fill 0.3s;
-        }
-
-        .github-corner:hover svg {
-            fill: rgb(255, 110, 66);
+            text-decoration: none;
         }
 
         .tooltip {
@@ -328,7 +286,7 @@
         </div>
 
         <div id="radar-container">
-            <canvas id="radar-canvas" width="800" height="800"></canvas>
+            <canvas id="radar-canvas" width="900" height="900"></canvas>
         </div>
 
         <div class="technologies">
@@ -339,30 +297,12 @@
 
     <div class="footer">
         <div>
-            Copyright © sommerfeld.io |
+            Copyright © sommerfeld.io -
             <a href="https://github.com/sommerfeld-io/.github/blob/main/docs/terms.md" target="_blank" rel="noopener noreferrer">Terms of Use + Privacy Policy</a>
         </div>
     </div>
 
     <script>
-        const movementSymbols = {
-            'in': '▲',
-            'out': '▼',
-            'new': '★',
-            'none': '⬤'
-        };
-
-        function getMovementClass(movement) {
-            if (movement === 'in') return 'moved-in';
-            if (movement === 'out') return 'moved-out';
-            if (movement === 'new') return 'new';
-            return '';
-        }
-
-        function getMovementSymbol(movement) {
-            return movementSymbols[movement] || movementSymbols.none;
-        }
-
         let radarData = null;
         let hoveredTech = null;
         let tooltip = null;
@@ -376,7 +316,6 @@
                     name: entry.label,
                     quadrant: data.quadrants[entry.quadrant].name,
                     ring: data.rings[entry.ring].name,
-                    moved: entry.moved === 1 ? 'in' : entry.moved === -1 ? 'out' : entry.moved === 2 ? 'new' : 'none',
                     link: entry.link
                 }));
                 document.getElementById('radar-version').textContent = data.version;
@@ -429,9 +368,22 @@
 
             // Draw rings with gradient (blue outside to green inside)
             const ringCount = data.rings.length;
+            // Custom ring sizing: make innermost ring (Adopt) larger
+            const getRingRadius = (ringIndex) => {
+                if (ringIndex === 0) {
+                    // Innermost ring (Adopt) - 40% of max radius
+                    return maxRadius * 0.4;
+                } else {
+                    // Remaining rings share the rest of the space equally
+                    const remainingSpace = maxRadius * 0.6;
+                    const remainingRings = ringCount - 1;
+                    return maxRadius * 0.4 + (remainingSpace * ringIndex / remainingRings);
+                }
+            };
+
             for (let i = ringCount - 1; i >= 0; i--) {
                 const ring = data.rings[i];
-                const radius = maxRadius * ((i + 1) / ringCount);
+                const radius = getRingRadius(i);
 
                 const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius);
 
@@ -457,9 +409,9 @@
 
                 // Ring label
                 ctx.fillStyle = 'rgba(226, 228, 233, 0.6)';
-                ctx.font = '12px sans-serif';
+                ctx.font = '24px sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillText(ring.name, centerX, centerY - radius + 15);
+                ctx.fillText(ring.name.toUpperCase(), centerX, centerY - radius + 30);
             }
 
             // Draw quadrant lines
@@ -488,7 +440,23 @@
                 ctx.fillText(quadrant.name, pos.x, pos.y);
             });
 
-            // Draw technologies
+            // Draw technologies with collision detection
+            const blipRadius = 12;
+            const minDistance = blipRadius * 2.5; // Minimum distance between blip centers
+
+            // Helper function to get ring boundaries (matching the ring drawing logic)
+            const getRingBoundaries = (ringIndex) => {
+                if (ringIndex === 0) {
+                    return { inner: blipRadius, outer: maxRadius * 0.4 - blipRadius };
+                } else {
+                    const remainingSpace = maxRadius * 0.6;
+                    const remainingRings = ringCount - 1;
+                    const innerBound = maxRadius * 0.4 + (remainingSpace * (ringIndex - 1) / remainingRings);
+                    const outerBound = maxRadius * 0.4 + (remainingSpace * ringIndex / remainingRings);
+                    return { inner: innerBound + blipRadius, outer: outerBound - blipRadius };
+                }
+            };
+
             data.technologies.forEach((tech, index) => {
                 const quadrant = data.quadrants.find(q => q.name === tech.quadrant);
                 const ring = data.rings.find(r => r.name === tech.ring);
@@ -497,23 +465,48 @@
                 const ringIndex = data.rings.indexOf(ring);
                 const quadrantIndex = data.quadrants.indexOf(quadrant);
 
-                const innerRadius = maxRadius * (ringIndex / ringCount);
-                const outerRadius = maxRadius * ((ringIndex + 1) / ringCount);
-                const radius = (innerRadius + outerRadius) / 2;
+                const boundaries = getRingBoundaries(ringIndex);
+                const innerRadius = boundaries.inner;
+                const outerRadius = boundaries.outer;
 
                 const angleOffset = (Math.PI / 2) * quadrantIndex;
                 const angleRange = Math.PI / 2;
-                const angle = angleOffset + (Math.random() * angleRange * 0.6 + angleRange * 0.2);
 
-                const x = centerX + radius * Math.cos(angle);
-                const y = centerY + radius * Math.sin(angle);
+                // Try to find a non-overlapping position
+                let x, y, attempts = 0;
+                let validPosition = false;
 
+                while (!validPosition && attempts < 100) {
+                    const radiusVariation = innerRadius + Math.random() * (outerRadius - innerRadius);
+                    const angleVariation = angleOffset + (Math.random() * angleRange * 0.8 + angleRange * 0.1);
+
+                    x = centerX + radiusVariation * Math.cos(angleVariation);
+                    y = centerY + radiusVariation * Math.sin(angleVariation);
+
+                    // Check for collisions with previously placed blips
+                    validPosition = true;
+                    for (let i = 0; i < index; i++) {
+                        const other = data.technologies[i];
+                        if (other._x && other._y) {
+                            const dx = x - other._x;
+                            const dy = y - other._y;
+                            const distance = Math.sqrt(dx * dx + dy * dy);
+                            if (distance < minDistance) {
+                                validPosition = false;
+                                break;
+                            }
+                        }
+                    }
+                    attempts++;
+                }
+
+                // If no valid position found after attempts, use last calculated position
                 tech._x = x;
                 tech._y = y;
-                tech._radius = 15;
+                tech._radius = blipRadius;
 
                 // Draw blip
-                ctx.fillStyle = quadrant.color;
+                ctx.fillStyle = ring.color;
                 ctx.beginPath();
                 ctx.arc(x, y, tech._radius, 0, 2 * Math.PI);
                 ctx.fill();
@@ -524,23 +517,6 @@
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText(index + 1, x, y);
-
-                // Draw movement indicator
-                const movement = tech.moved || 'none';
-                const symbol = getMovementSymbol(movement);
-                if (symbol !== '⬤') {
-                    ctx.font = 'bold 14px sans-serif';
-                    if (movement === 'in') {
-                        ctx.fillStyle = '#4ade80';
-                        ctx.fillText(symbol, x, y - 22);
-                    } else if (movement === 'out') {
-                        ctx.fillStyle = '#f87171';
-                        ctx.fillText(symbol, x, y + 22);
-                    } else if (movement === 'new') {
-                        ctx.fillStyle = '#facc15';
-                        ctx.fillText(symbol, x - 20, y - 5);
-                    }
-                }
             });
 
             // Add canvas hover and click handlers
@@ -567,7 +543,10 @@
 
                 if (distance < tech._radius) {
                     found = true;
-                    showTooltip(tech.name, e.clientX, e.clientY);
+                    // Calculate bullet position in viewport coordinates
+                    const bulletScreenX = rect.left + (tech._x / canvas.width) * rect.width;
+                    const bulletScreenY = rect.top + (tech._y / canvas.height) * rect.height;
+                    showTooltip(tech.name, bulletScreenX, bulletScreenY);
                     highlightCard(index);
                     canvas.style.cursor = 'pointer';
                 }
@@ -608,8 +587,8 @@
             tooltip = document.createElement('div');
             tooltip.className = 'tooltip';
             tooltip.textContent = text;
-            tooltip.style.left = (x + 10) + 'px';
-            tooltip.style.top = (y - 30) + 'px';
+            tooltip.style.left = (x + window.scrollX + 15) + 'px';
+            tooltip.style.top = (y + window.scrollY + 15) + 'px';
             document.body.appendChild(tooltip);
         }
 
@@ -644,24 +623,19 @@
             }));
 
             sortedTechs.forEach((tech) => {
-                const quadrant = data.quadrants.find(q => q.name === tech.quadrant);
+                const ring = data.rings.find(r => r.name === tech.ring);
                 const card = document.createElement('div');
                 card.className = 'technology-card';
-                card.style.borderLeftColor = quadrant.color;
+                card.style.borderLeftColor = ring.color;
                 card.setAttribute('data-tech-index', tech.index - 1);
-
-                const movement = tech.moved || 'none';
-                const movementClass = getMovementClass(movement);
-                const movementSymbol = getMovementSymbol(movement);
-                const movementHTML = movementSymbol !== '⬤' ?
-                    `<span class="technology-movement ${movementClass}">${movementSymbol}</span>` : '';
 
                 card.innerHTML = `
                     <div class="technology-header">
-                        <div class="technology-number" style="background-color: ${quadrant.color}">${tech.index}</div>
-                        <div class="technology-name">${tech.name}${movementHTML}</div>
+                        <div class="technology-number" style="background-color: ${ring.color}">${tech.index}</div>
+                        <div class="technology-name">${tech.name}</div>
                     </div>
-                    <div class="technology-meta">${tech.quadrant} • ${tech.ring}</div>
+                    <div class="technology-meta">${tech.quadrant}</div>
+                    <div class="technology-meta">${tech.ring}</div>
                 `;
 
                 card.addEventListener('mouseenter', () => {

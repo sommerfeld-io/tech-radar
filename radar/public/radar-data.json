@@ -1,10 +1,10 @@
 {
   "title": "Sommerfeld.io Tech Radar",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "This is the technology radar for the sommerfeld.io GitHub organization.\nIt provides an overview of technologies, tools, frameworks, and practices\nwe use, assess, or have on our radar for future consideration.\n",
   "quadrants": [
     {
-      "name": "Languages & Frameworks",
+      "name": "Languages, Frameworks and Tooling",
       "color": "#8e7cc3",
       "description": "Programming languages, frameworks, and libraries we use to build software"
     },
@@ -28,80 +28,204 @@
     {
       "name": "Adopt",
       "description": "Technologies we have high confidence in and use in production",
-      "color": "#93c47d"
+      "color": "#6fae5e"
     },
     {
       "name": "Trial",
       "description": "Technologies worth pursuing, being used successfully in some projects",
-      "color": "#ffd966"
+      "color": "#d4b636"
     },
     {
       "name": "Assess",
       "description": "Technologies worth exploring to understand their potential",
-      "color": "#f9cb9c"
+      "color": "#e89850"
     },
     {
       "name": "Hold",
       "description": "Technologies to proceed with caution or phase out",
-      "color": "#ea9999"
+      "color": "#c76b6b"
     }
   ],
   "entries": [
     {
-      "label": "Bash",
-      "quadrant": 0,
-      "ring": 0,
-      "moved": 0,
-      "link": "#bash"
+      "label": "Grafana k6",
+      "quadrant": 3,
+      "ring": 2,
+      "link": "#grafana-k6"
     },
     {
-      "label": "Python",
-      "quadrant": 0,
+      "label": "Vagrant",
+      "quadrant": 3,
       "ring": 1,
-      "moved": 1,
-      "link": "#python"
+      "link": "#vagrant"
     },
     {
-      "label": "Docker",
-      "quadrant": 2,
+      "label": "Material for MkDocs",
+      "quadrant": 3,
+      "ring": 1,
+      "link": "#material-for-mkdocs"
+    },
+    {
+      "label": "Loki",
+      "quadrant": 3,
+      "ring": 1,
+      "link": "#loki"
+    },
+    {
+      "label": "Grafana Alloy",
+      "quadrant": 3,
+      "ring": 1,
+      "link": "#grafana-alloy"
+    },
+    {
+      "label": "Docker + Docker Compose",
+      "quadrant": 3,
       "ring": 0,
-      "moved": 0,
-      "link": "#docker"
+      "link": "#docker-+-docker-compose"
+    },
+    {
+      "label": "Dev Container",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#dev-container"
+    },
+    {
+      "label": "Ansible",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#ansible"
+    },
+    {
+      "label": "Chef Inspec",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#chef-inspec"
+    },
+    {
+      "label": "Prometheus",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#prometheus"
+    },
+    {
+      "label": "Grafana",
+      "quadrant": 3,
+      "ring": 0,
+      "link": "#grafana"
     },
     {
       "label": "GitHub Actions",
-      "quadrant": 2,
+      "quadrant": 3,
       "ring": 0,
-      "moved": 2,
       "link": "#github-actions"
     },
     {
       "label": "Taskfile (Task)",
       "quadrant": 3,
       "ring": 0,
-      "moved": 0,
       "link": "#taskfile-task"
     },
     {
-      "label": "semantic-release",
+      "label": "Dependabot",
       "quadrant": 3,
       "ring": 0,
-      "moved": 0,
-      "link": "#semantic-release"
+      "link": "#dependabot"
     },
     {
-      "label": "yamllint",
-      "quadrant": 3,
+      "label": "Arch Linux",
+      "quadrant": 2,
+      "ring": 2,
+      "link": "#arch-linux"
+    },
+    {
+      "label": "SonarCloud",
+      "quadrant": 2,
+      "ring": 2,
+      "link": "#sonarcloud"
+    },
+    {
+      "label": "Ubuntu",
+      "quadrant": 2,
       "ring": 0,
-      "moved": 0,
-      "link": "#yamllint"
+      "link": "#ubuntu"
     },
     {
-      "label": "MkDocs",
-      "quadrant": 3,
+      "label": "Raspberry Pi",
+      "quadrant": 2,
+      "ring": 0,
+      "link": "#raspberry-pi"
+    },
+    {
+      "label": "GitHub",
+      "quadrant": 2,
+      "ring": 0,
+      "link": "#github"
+    },
+    {
+      "label": "GitHub Pages",
+      "quadrant": 2,
+      "ring": 0,
+      "link": "#github-pages"
+    },
+    {
+      "label": "DockerHub",
+      "quadrant": 2,
+      "ring": 0,
+      "link": "#dockerhub"
+    },
+    {
+      "label": "TDD",
+      "quadrant": 1,
       "ring": 1,
-      "moved": -1,
-      "link": "#mkdocs"
+      "link": "#tdd"
+    },
+    {
+      "label": "Continuous Integration & Continuous Delivery",
+      "quadrant": 1,
+      "ring": 1,
+      "link": "#continuous-integration-&-continuous-delivery"
+    },
+    {
+      "label": "Infrastructure as Code",
+      "quadrant": 1,
+      "ring": 0,
+      "link": "#infrastructure-as-code"
+    },
+    {
+      "label": "Trunk Based Development",
+      "quadrant": 1,
+      "ring": 0,
+      "link": "#trunk-based-development"
+    },
+    {
+      "label": "Java",
+      "quadrant": 0,
+      "ring": 3,
+      "link": "#java"
+    },
+    {
+      "label": "Kotlin",
+      "quadrant": 0,
+      "ring": 3,
+      "link": "#kotlin"
+    },
+    {
+      "label": "Golang",
+      "quadrant": 0,
+      "ring": 2,
+      "link": "#golang"
+    },
+    {
+      "label": "Bash",
+      "quadrant": 0,
+      "ring": 0,
+      "link": "#bash"
+    },
+    {
+      "label": "Pre Commit",
+      "quadrant": 0,
+      "ring": 0,
+      "link": "#pre-commit"
     }
   ]
 }

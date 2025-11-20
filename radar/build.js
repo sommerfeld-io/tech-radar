@@ -28,16 +28,10 @@ function transformToRadarFormat(radarData) {
 
   // Transform technologies
   const entries = radarData.technologies.map((tech) => {
-    let movedValue = 0;
-    if (tech.moved === 'up') movedValue = 1;
-    else if (tech.moved === 'down') movedValue = -1;
-    else if (tech.moved === 'new') movedValue = 2;
-    
     return {
       label: tech.name,
       quadrant: quadrantMap[tech.quadrant] !== undefined ? quadrantMap[tech.quadrant] : 0,
       ring: ringMap[tech.ring] !== undefined ? ringMap[tech.ring] : 0,
-      moved: movedValue,
       link: `#${tech.name.toLowerCase().replace(/\s+/g, '-').replace(/[()]/g, '')}`
     };
   });
@@ -57,18 +51,18 @@ try {
   console.log('Building tech radar data...');
   const radarData = readRadarData();
   console.log(`Found ${radarData.technologies.length} technologies`);
-  
+
   const radarOutput = transformToRadarFormat(radarData);
-  
+
   // Ensure output directory exists
   const outputDir = path.dirname(OUTPUT_FILE);
   if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
   }
-  
+
   fs.writeFileSync(OUTPUT_FILE, JSON.stringify(radarOutput, null, 2));
   console.log(`Tech radar data written to ${OUTPUT_FILE}`);
-  
+
 } catch (error) {
   console.error('Error building radar data:', error);
   process.exit(1);
