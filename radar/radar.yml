@@ -1,12 +1,13 @@
 ---
 title: "Sommerfeld.io Tech Radar"
-version: "0.0.0"
-copyright: "sommerfeld.io"
-githubUrl: "https://github.com/sommerfeld-io"
 description: |
   This is the technology radar for the sommerfeld.io GitHub organization.
   It provides an overview of technologies, tools, frameworks, and practices
   we use, assess, or have in mind for future consideration.
+
+copyright: "Copyright © sommerfeld.io"
+githubUrl: "https://github.com/sommerfeld-io"
+version: "0.0.0"
 
 quadrants:
   - name: "Languages, Frameworks and Tooling"

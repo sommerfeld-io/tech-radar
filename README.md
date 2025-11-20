@@ -34,6 +34,16 @@ To add a new technology to the radar:
 
 - Build the radar with above command
 
+## Configuration
+
+The radar supports the following configuration fields in `radar/radar.yml`:
+
+- `title`: The title displayed at the top of the page
+- `version`: Version number displayed in the header (optional - hidden if not provided)
+- `description`: Description text shown below the title (required)
+- `copyright`: Copyright text displayed in the footer
+- `githubUrl`: URL for the GitHub icon in the top-right corner (optional - icon is hidden if not provided)
+
 ## Contact
 
 Feel free to contact me via <sebastian@sommerfeld.io> or [raise an issue in this repository][file-issues].

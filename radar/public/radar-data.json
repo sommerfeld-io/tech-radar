@@ -1,7 +1,9 @@
 {
-  "title": "Sommerfeld.io Tech Radar",
+  "title": "aaSommerfeld.io Tech Radaraa",
   "version": "0.0.0",
   "description": "This is the technology radar for the sommerfeld.io GitHub organization.\nIt provides an overview of technologies, tools, frameworks, and practices\nwe use, assess, or have in mind for future consideration.\n",
+  "copyright": "Copyright © sommerfeld.io",
+  "githubUrl": "https://github.com/sommerfeld-io",
   "quadrants": [
     {
       "name": "Languages, Frameworks and Tooling",
@@ -138,6 +140,18 @@
       "link": "#arch-linux"
     },
     {
+      "label": "Kubernetes",
+      "quadrant": 2,
+      "ring": 2,
+      "link": "#kubernetes"
+    },
+    {
+      "label": "ArgoCD",
+      "quadrant": 2,
+      "ring": 2,
+      "link": "#argocd"
+    },
+    {
       "label": "SonarCloud",
       "quadrant": 2,
       "ring": 2,
@@ -180,6 +194,12 @@
       "link": "#tdd"
     },
     {
+      "label": "GitOps",
+      "quadrant": 1,
+      "ring": 1,
+      "link": "#gitops"
+    },
+    {
       "label": "Continuous Integration & Continuous Delivery",
       "quadrant": 1,
       "ring": 1,
@@ -190,6 +210,12 @@
       "quadrant": 1,
       "ring": 0,
       "link": "#infrastructure-as-code"
+    },
+    {
+      "label": "Docs as Code",
+      "quadrant": 1,
+      "ring": 0,
+      "link": "#docs-as-code"
     },
     {
       "label": "Trunk Based Development",

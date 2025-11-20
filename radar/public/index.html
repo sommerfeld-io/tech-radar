@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sommerfeld.io Tech Radar</title>
+    <title>Tech Radar</title>
     <style>
         * {
             margin: 0;
@@ -352,7 +352,7 @@
         </div>
         <h1 id="radar-title">Sommerfeld.io Tech Radar</h1>
         <p id="radar-description">This is the technology radar for the sommerfeld.io GitHub organization. It provides an overview of technologies, tools, frameworks, and practices we use, assess, or have on our radar for future consideration.</p>
-        <div class="version">Version <span id="radar-version">1.0.0</span></div>
+        <div class="version" id="version-container">Version <span id="radar-version">1.0.0</span></div>
     </div>
 
     <div class="container">
@@ -396,7 +396,7 @@
 
     <div class="footer">
         <div>
-            Copyright © <span id="copyright-text"></span>
+            <span id="copyright-text"></span>
         </div>
     </div>
 
@@ -416,7 +416,12 @@
                     ring: data.rings[entry.ring].name,
                     link: entry.link
                 }));
-                document.getElementById('radar-version').textContent = data.version;
+                if (data.version) {
+                    document.getElementById('radar-version').textContent = data.version;
+                } else {
+                    // Hide the version if not provided
+                    document.getElementById('version-container').style.display = 'none';
+                }
 
                 // Set title and description
                 if (data.title) {
@@ -429,6 +434,10 @@
                 // Set GitHub URL and copyright
                 if (data.githubUrl) {
                     document.getElementById('github-link').href = data.githubUrl;
+                    document.querySelector('.github-corner').style.display = 'flex';
+                } else {
+                    // Hide the GitHub corner if URL is not provided
+                    document.querySelector('.github-corner').style.display = 'none';
                 }
                 if (data.copyright) {
                     document.getElementById('copyright-text').textContent = data.copyright;
