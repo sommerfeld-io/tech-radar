@@ -33,6 +33,7 @@ module.exports = {
     [
       '@semantic-release/git',
       {
+        assets: ['package.json', 'package-lock.json'],
         message:
           'refactor(release): bump version to ${nextRelease.version} [Actions Bot]'
       }
