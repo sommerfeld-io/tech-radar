@@ -51,8 +51,12 @@ jobs:
 
   publish-release:
     runs-on: ubuntu-latest
+    name: ${{ matrix.target-stage }}
     permissions:
       contents: read
+    strategy:
+      matrix:
+        target-stage: ['run', 'yaml2json']
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -69,8 +73,14 @@ jobs:
           IMAGE_TAG_EDGE: ${{ env.IMAGE_TAG_EDGE }}
           IMAGE_TAG_LATEST: ${{ env.IMAGE_TAG_LATEST }}
         run: |
+          if [ "${{ matrix.target-stage }}" == "run" ]; then
+            SUFFIX=""
+          else
+            SUFFIX="-${{ matrix.target-stage }}"
+          fi
+
           TAG="${GITHUB_REF#refs/tags/}"
-          TAG="${TAG#v}"
+          TAG="${TAG#v}$SUFFIX"
           echo "[INFO] New version tag = $TAG"
 
           SRC_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_EDGE"
@@ -92,16 +102,29 @@ jobs:
 
   docker-scout:
     runs-on: ubuntu-latest
+    name: ${{ matrix.target-stage }}
     needs: publish-release
     permissions:
       contents: read
       security-events: write
+    strategy:
+      matrix:
+        target-stage: ['run', 'yaml2json']
     steps:
       # - name: Checkout code
       #   uses: actions/checkout@v4
       - name: Get current date
         id: date
         run: echo "job_date=$(date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+        shell: bash
+      - name: Set image tag suffix
+        id: tag-suffix
+        run: |
+          if [ "${{ matrix.target-stage }}" == "run" ]; then
+            echo "suffix=" >> "$GITHUB_OUTPUT"
+          else
+            echo "suffix=-${{ matrix.target-stage }}" >> "$GITHUB_OUTPUT"
+          fi
         shell: bash
       - name: Login to Container Registry
         uses: docker/login-action@v3
@@ -113,7 +136,7 @@ jobs:
         uses: docker/scout-action@v1.18.2
         with:
           command: cves
-          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_LATEST }}
+          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_LATEST }}${{ steps.tag-suffix.outputs.suffix }}
           sarif-file: sarif-output.json
           summary: false
           organization: ${{ secrets.DOCKERHUB_USER }}
@@ -122,5 +145,5 @@ jobs:
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: sarif-output.json
-          category: 'Docker Scout CVEs - ${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_LATEST }}'
+          category: 'Docker Scout CVEs - ${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_LATEST }}${{ steps.tag-suffix.outputs.suffix }}'
           checkout_path: components/${{ env.IMAGE_NAME }}
