@@ -79,3 +79,20 @@ services:
     depends_on:
       app-lint-dockerfile:
         condition: service_completed_successfully
+
+  lint-dockerfile:
+    image: hadolint/hadolint:latest
+    volumes: *volumes
+    working_dir: *default-workdir
+    entrypoint: hadolint Dockerfile
+    tty: *tty
+
+  folderslint:
+    image: local/tech-radar:${DEV_TAG}
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes: *volumes
+    working_dir: *default-workdir
+    command: .
+    tty: *tty
