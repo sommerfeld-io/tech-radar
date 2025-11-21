@@ -80,15 +80,15 @@ jobs:
           fi
 
           TAG="${GITHUB_REF#refs/tags/}"
-          TAG="${TAG#v}$SUFFIX"
-          echo "[INFO] New version tag = $TAG"
+          TAG="${TAG#v}"
+          echo "[INFO] New version tag = $TAG$SUFFIX"
 
-          SRC_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_EDGE"
+          SRC_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_EDGE$SUFFIX"
 
-          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$TAG"
+          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$TAG$SUFFIX"
           docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
 
-          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_LATEST"
+          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_LATEST$SUFFIX"
           docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
         shell: bash
       - name: Update DockerHub description
