@@ -363,7 +363,6 @@
         </div>
         <h1 id="radar-title">Sommerfeld.io Tech Radar</h1>
         <p id="radar-description">This is the technology radar for the sommerfeld.io GitHub organization. It provides an overview of technologies, tools, frameworks, and practices we use, assess, or have on our radar for future consideration.</p>
-        <div class="version" id="version-container">Version <span id="radar-version">0.0.0</span></div>
     </div>
 
     <div class="container">
@@ -427,12 +426,6 @@
                     ring: data.rings[entry.ring].name,
                     link: entry.link
                 }));
-                if (data.version) {
-                    document.getElementById('radar-version').textContent = data.version;
-                } else {
-                    // Hide the version if not provided
-                    document.getElementById('version-container').style.display = 'none';
-                }
 
                 // Set title and description
                 if (data.title) {

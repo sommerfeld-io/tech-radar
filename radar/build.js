@@ -38,7 +38,6 @@ function transformToRadarFormat(radarData) {
 
   return {
     title: radarData.title,
-    version: radarData.version,
     description: radarData.description,
     copyright: radarData.copyright,
     githubUrl: radarData.githubUrl,
