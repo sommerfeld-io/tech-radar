@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [
       'lint',
-      # 'shellcheck',
+      'shellcheck',
       'files-should-exist',
     ]
     steps:
