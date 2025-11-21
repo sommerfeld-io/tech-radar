@@ -62,8 +62,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: run
     volumes: *volumes
     working_dir: *default-workdir
     ports:
       - 8000:80
+    tty: *tty
+
+  yaml2json:
+    image: local/tech-radar:${DEV_TAG}-yaml2json
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: yaml2json
+    volumes: *volumes
+    working_dir: *default-workdir
     tty: *tty

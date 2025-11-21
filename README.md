@@ -26,7 +26,7 @@ To run the image as-is with the default radar configuration (which contains the 
 docker run --rm -it -p 8000:80 tech-radar:latest
 ```
 
-<!-- ## How to use with custom configuration
+## How to use with custom configuration
 
 To use a custom radar configuration, create a `radar.yml` file and populate it with your desired configuration.
 
@@ -34,9 +34,8 @@ To use a custom radar configuration, create a `radar.yml` file and populate it w
 ---
 title: "Tech Radar"
 description: Your Technology Radar
-
-copyright: "Copyright © sommerfeld.io"
-githubUrl: "https://github.com/<your-org>/<your-repo>"
+copyright: "Copyright © sommerfeld.io" # optional
+githubUrl: "https://github.com/<your-org>/<your-repo>" # optional
 
 quadrants:
   - name: "Languages, Frameworks and Tooling"
@@ -67,38 +66,34 @@ rings:
     color: "#c76b6b"
 
 technologies:
-  # Infrastructure
   - name: "Grafana k6"
     quadrant: "Infrastructure"
     ring: "Assess"
-
-  # Platforms
   - name: "Arch Linux"
     quadrant: "Platforms"
     ring: "Adopt"
-
-  # Development and Delivery Practices
   - name: "TDD"
     quadrant: "Development and Delivery Practices"
     ring: "Trial"
-
-  # Languages, Frameworks and Tooling
   - name: "Java"
     quadrant: "Languages, Frameworks and Tooling"
     ring: "Hold"
 ```
 
-Transform the `radar.yml` file into JSON:
+Transform the `radar.yml` file into JSON by running the following command in the folder where the `radar.yml` file is located:
 
 ```bash
-docker run --rm -it --volume "$(pwd):/src" tech-radar:latest-yaml2json
+docker run --rm -it -u "$(id -u):$(id -g)" \
+  --volume "$(pwd)/radar.yml:/src/radar/radar.yml" \
+  --volume "$(pwd):/src/radar/public" \
+  local/tech-radar:dev-yaml2json
 ```
 
 Run image with the generated `radar-data.json` file mounted into the container:
 
 ```bash
-docker run --rm -it --volume "$(pwd)/radar-data.json:/usr/share/nginx/html/radar-data.json" -p 8000:80 tech-radar:latest
-``` -->
+docker run --rm -it --volume "$(pwd)/radar-data.json:/usr/share/nginx/html/radar-data.json" -p 8000:80 sommerfeldio/tech-radar:latest
+```
 
 ## Run locally from source
 
