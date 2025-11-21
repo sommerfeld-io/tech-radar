@@ -21,6 +21,7 @@ jobs:
           version: 3.x
       - name: Run task to build radar
         run: |
+          sleep 10s
           export TASK_X_REMOTE_TASKFILES=1
           task radar:build --yes
         shell: bash
