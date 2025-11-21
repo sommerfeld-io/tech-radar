@@ -7,7 +7,7 @@ description: |
 
 copyright: "Copyright © sommerfeld.io"
 githubUrl: "https://github.com/sommerfeld-io"
-version: 0.2.1
+version: 0.2.2
 
 quadrants:
   - name: "Languages, Frameworks and Tooling"
