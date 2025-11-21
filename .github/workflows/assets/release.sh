@@ -21,4 +21,19 @@ function incrementVersionsInYaml() {
   done
 }
 
+## Increment the version numbers in all json files, that contain the version number.
+## The version inside the json files is expected to be in the format: `"version": "0.1.0"`.
+##
+## @arg $1 string The version that should be written to the files.
+function incrementVersionsInJson() {
+  json_files=(
+    "radar/public/radar-data.json"
+  )
+
+  for file in "${json_files[@]}"; do
+    sed -i "s/\"version\": \".*\"/\"version\": \"$VERSION\"/" "$file"
+  done
+}
+
 incrementVersionsInYaml
+incrementVersionsInJson
