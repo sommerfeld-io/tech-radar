@@ -23,10 +23,15 @@ Learn about our tagging policy and the difference between rolling tags and immut
 To run the image as-is with the default radar configuration (which contains the technologies we use at [Sommerfeld.io](https://github.com/sommerfeld-io)), execute:
 
 ```bash
-docker run --rm -it -p 8000:80 tech-radar:latest
+docker run --rm -it -p 8000:80 sommerfeldio/tech-radar:latest
 ```
 
 ## How to use with custom configuration
+
+The image comes in two variants:
+
+- The `latest` variant serves the radar using a pre-bundled `radar-data.json` file or a mounted `radar-data.json` file
+- The `latest-yaml2json` variant is a tool to convert a `radar.yml` configuration file into the required `radar-data.json` format.
 
 To use a custom radar configuration, create a `radar.yml` file and populate it with your desired configuration.
 
@@ -86,10 +91,10 @@ Transform the `radar.yml` file into JSON by running the following command in the
 docker run --rm -it -u "$(id -u):$(id -g)" \
   --volume "$(pwd)/radar.yml:/src/radar/radar.yml" \
   --volume "$(pwd):/src/radar/public" \
-  local/tech-radar:dev-yaml2json
+  sommerfeldio/tech-radar:latest-yaml2json
 ```
 
-Run image with the generated `radar-data.json` file mounted into the container:
+Mount the generated `radar-data.json` file into the container to run the radar with your custom configuration:
 
 ```bash
 docker run --rm -it --volume "$(pwd)/radar-data.json:/usr/share/nginx/html/radar-data.json" -p 8000:80 sommerfeldio/tech-radar:latest
