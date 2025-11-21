@@ -88,7 +88,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           repository: ${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}
           short-description: ${{ github.event.repository.description }}
-          readme-filepath: .README.md
+          readme-filepath: README.md
 
   docker-scout:
     runs-on: ubuntu-latest
