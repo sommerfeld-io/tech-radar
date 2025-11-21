@@ -27,21 +27,21 @@ permissions:
 
 jobs:
 
-  # shellcheck:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v5
-  #     - name: Login to Container Registry
-  #       uses: docker/login-action@v3
-  #       with:
-  #         registry: ${{ env.REGISTRY }}
-  #         username: ${{ secrets.DOCKERHUB_USER }}
-  #         password: ${{ secrets.DOCKERHUB_TOKEN }}
-  #     - name: Run ShellCheck
-  #       uses: ludeeus/action-shellcheck@2.0.0
-  #       with:
-  #         ignore_paths: node_modules target
+  shellcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+      - name: Login to Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@2.0.0
+        with:
+          ignore_paths: node_modules target
 
   lint:
     runs-on: ubuntu-latest
@@ -111,7 +111,7 @@ jobs:
     name: ${{ matrix.target-stage }}
     needs: [
       'lint',
-      # 'shellcheck',
+      'shellcheck',
       'files-should-exist',
     ]
     permissions:
