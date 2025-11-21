@@ -5,6 +5,8 @@
 
 The technology radar for the [Sommerfeld.io](https://github.com/sommerfeld-io) GitHub organization. It provides an overview of technologies, tools, frameworks, and practices we use, assess, or have on our radar for future consideration.
 
+The radar can also be customized to visualize your own technology landscape by providing a custom configuration file.
+
 - [sommerfeldio/tech-radar](https://hub.docker.com/r/sommerfeldio/tech-radar) on Docker Hub
 - [GitHub Repository](https://github.com/sommerfeld-io/tech-radar)
 - [How to Contribute](https://github.com/sommerfeld-io/.github/blob/main/CONTRIBUTING.md)
@@ -12,7 +14,7 @@ The technology radar for the [Sommerfeld.io](https://github.com/sommerfeld-io) G
 - [Project Board for Issues and Pull Requests][project-board]
 
 > [!NOTE]
-> The tech radar implementation (visualization, build scripts, and HTML/CSS/JS) is AI-generated.
+> This project represents a sort of PoC in regards to AI-assisted software development. The tech radar implementation (visualization, build scripts, and HTML/CSS/JS) is AI-generated. Adjacent code like pipelines, Dockerfile, etc. are not exclusively AI-generated. But the core tech radar code is generated completely by AI.
 
 ## Software Tags and Versioning
 
@@ -30,7 +32,7 @@ docker run --rm -it -p 8000:80 sommerfeldio/tech-radar:latest
 
 The image comes in two variants:
 
-- The `latest` variant serves the radar using a pre-bundled `radar-data.json` file or a mounted `radar-data.json` file
+- The `latest` variant serves the data from a pre-bundled `radar-data.json` file or from a mounted `radar-data.json` file.
 - The `latest-yaml2json` variant is a tool to convert a `radar.yml` configuration file into the required `radar-data.json` format.
 
 To use a custom radar configuration, create a `radar.yml` file and populate it with your desired configuration.
@@ -99,6 +101,8 @@ Mount the generated `radar-data.json` file into the container to run the radar w
 ```bash
 docker run --rm -it --volume "$(pwd)/radar-data.json:/usr/share/nginx/html/radar-data.json" -p 8000:80 sommerfeldio/tech-radar:latest
 ```
+
+THe `radar.yml` file is not required to be present when running the radar, only the generated `radar-data.json` file. But the `radar.yml` file allows for easier editing and is the foundation for generating the `radar-data.json` file.
 
 ## Run locally from source
 
