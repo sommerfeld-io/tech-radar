@@ -106,8 +106,9 @@ jobs:
 
   # ----- Build images stage ----------------------------------------------------------------------
 
-  build-image:
+  build-images:
     runs-on: ubuntu-latest
+    name: ${{ matrix.target-stage }}
     needs: [
       'lint',
       # 'shellcheck',
@@ -117,6 +118,9 @@ jobs:
       contents: read
       pull-requests: write
       security-events: write
+    strategy:
+      matrix:
+        target-stage: ['run', 'yaml2json']
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
@@ -147,21 +151,26 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          target: ${{ matrix.target-stage }}
           platforms: linux/amd64
           push: true
-          tags: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}-${{ matrix.target-stage }}
           labels: ${{ steps.meta.outputs.labels }}
           provenance: true
           sbom: true
 
   docker-scout:
     runs-on: ubuntu-latest
+    name: ${{ matrix.target-stage }}
     needs: [
-      'build-image',
+      'build-images',
     ]
     permissions:
       contents: read
       pull-requests: write
+    strategy:
+      matrix:
+        target-stage: ['run', 'yaml2json']
     steps:
       - name: Login to Container Registry
         uses: docker/login-action@v3
@@ -169,28 +178,32 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Docker Scout Compare with `:${{ env.IMAGE_TAG_LATEST }}` vs `:${{ github.sha }}` (pull requests only)
-        # if: ${{ github.event_name == 'pull_request' }}
-        uses: docker/scout-action@v1.18.2
-        with:
-          command: compare
-          image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          to: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_LATEST }}
-          exit-code: false
-          write-comment: true
-          only-severities: critical,high,medium
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Docker Scout Compare with `:${{ env.IMAGE_TAG_LATEST }}` vs `:${{ github.sha }}` (pull requests only)
+      #   # if: ${{ github.event_name == 'pull_request' }}
+      #   uses: docker/scout-action@v1.18.2
+      #   with:
+      #     command: compare
+      #     image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ github.sha }}-${{ matrix.target-stage }}
+      #     to: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_LATEST }}
+      #     exit-code: false
+      #     write-comment: true
+      #     only-severities: critical,high,medium
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
 
   # ----- Deploy ----------------------------------------------------------------------
 
   publish-edge:
     runs-on: ubuntu-latest
+    name: ${{ matrix.target-stage }}
     if: ${{ github.ref == 'refs/heads/main' }}
     needs: [
       'docker-scout',
     ]
     permissions:
       contents: read
+    strategy:
+      matrix:
+        target-stage: ['run', 'yaml2json']
     steps:
       - name: Login to Container Registry
         uses: docker/login-action@v3
@@ -200,15 +213,27 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+      - name: Set image tag suffix
+        id: tag-suffix
+        run: |
+          if [ "${{ matrix.target-stage }}" == "run" ]; then
+            echo "suffix=" >> "$GITHUB_OUTPUT"
+          else
+            echo "suffix=-${{ matrix.target-stage }}" >> "$GITHUB_OUTPUT"
+          fi
+        shell: bash
       - name: Re-tag ${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }} as :${{ env.IMAGE_TAG_EDGE }} and deploy to ${{ env.REGISTRY }}
         env:
           REGISTRY: ${{ env.REGISTRY }}
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           COMMIT_SHA: ${{ github.sha }}
+          TARGET_STAGE: ${{ matrix.target-stage }}
+          IMAGE_TAG_EDGE: ${{ env.IMAGE_TAG_EDGE }}
+          TAG_SUFFIX: ${{ steps.tag-suffix.outputs.suffix }}
         run: |
-          SRC_IMAGE="$REGISTRY/$DOCKERHUB_USER/$IMAGE_NAME:$COMMIT_SHA"
-          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_EDGE"
+          SRC_IMAGE="$REGISTRY/$DOCKERHUB_USER/$IMAGE_NAME:$COMMIT_SHA-$TARGET_STAGE"
+          TARGET_IMAGE="$DOCKERHUB_USER/$IMAGE_NAME:$IMAGE_TAG_EDGE$TAG_SUFFIX"
           docker buildx imagetools create --tag "$TARGET_IMAGE" "$SRC_IMAGE"
         shell: bash
 
@@ -276,23 +301,28 @@ jobs:
 
   cleanup-dockerhub:
     runs-on: ubuntu-latest
+    name: ${{ matrix.target-stage }}
     needs: ['publish-edge']
     if: always()
     permissions:
       contents: read
+    strategy:
+      matrix:
+        target-stage: ['run', 'yaml2json']
     steps:
       - name: Checkout code
         uses: actions/checkout@v5
-      - name: Remove ${{ env.IMAGE_NAME }}:${{ github.sha }} images from registry
+      - name: Remove ${{ env.IMAGE_NAME }}:${{ github.sha }}-${{ matrix.target-stage }} images from registry
         env:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           COMMIT_SHA: ${{ github.sha }}
+          TARGET_STAGE: ${{ matrix.target-stage }}
           DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
         run: |
           TOKEN=$(curl -s -H "Content-Type: application/json" -X POST \
             -d "{\"username\": \"$DOCKERHUB_USER\", \"password\": \"$DOCKERHUB_TOKEN\"}" \
             https://hub.docker.com/v2/users/login/ | jq -r .token)
           curl -X DELETE -H "Authorization: JWT ${TOKEN}" \
-            "https://hub.docker.com/v2/repositories/${DOCKERHUB_USER}/${IMAGE_NAME}/tags/${COMMIT_SHA}/"
+            "https://hub.docker.com/v2/repositories/${DOCKERHUB_USER}/${IMAGE_NAME}/tags/${COMMIT_SHA}-${TARGET_STAGE}/"
         shell: bash
