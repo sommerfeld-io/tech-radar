@@ -50,36 +50,6 @@ services:
     command: --config .lychee.toml .
     tty: *tty
 
-  docs-build:
-    image: &docs-image sommerfeldio/mkdocs:latest
-    volumes: *volumes
-    working_dir: *default-workdir
-    command: build
-    tty: *tty
-
-  docs-dev-server:
-    image: *docs-image
-    volumes: *volumes
-    working_dir: *default-workdir
-    ports:
-      - 3080:8000
-    tty: *tty
-
-  app-lint-dockerfile:
-    image: &lint-dockerfile-image hadolint/hadolint:latest
-    volumes: *volumes
-    working_dir: *default-workdir
-    entrypoint: hadolint Dockerfile
-
-  app:
-    image: ${COMPOSE_PROJECT_NAME}-app:${DEV_TAG}
-    build:
-      context: .
-      dockerfile: Dockerfile
-    depends_on:
-      app-lint-dockerfile:
-        condition: service_completed_successfully
-
   lint-dockerfile:
     image: hadolint/hadolint:latest
     volumes: *volumes
@@ -87,12 +57,13 @@ services:
     entrypoint: hadolint Dockerfile
     tty: *tty
 
-  folderslint:
+  radar:
     image: local/tech-radar:${DEV_TAG}
     build:
       context: .
       dockerfile: Dockerfile
     volumes: *volumes
     working_dir: *default-workdir
-    command: .
+    ports:
+      - 8000:80
     tty: *tty

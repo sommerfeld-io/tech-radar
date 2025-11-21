@@ -44,13 +44,13 @@ tasks:
   lint:
     desc: 'Run all project linters outside of Dockerfile linters'
     cmds:
-      - for: ['yaml', 'filenames', 'folders'] # , 'workflows', 'markdown-links'
+      - for: ['yaml', 'filenames', 'folders', 'dockerfile'] # , 'workflows', 'markdown-links'
         cmd: docker compose up lint-{{ .ITEM }} --exit-code-from lint-{{ .ITEM }}
 
   # ===============================================================================================
 
   radar:build:
-    desc: 'Build the tech radar from YAML data files'
+    desc: 'Build the tech radar'
     cmds:
       - npm install
       - npm run build:radar
@@ -62,3 +62,15 @@ tasks:
       - task: radar:build
       - echo "Starting web server on http://localhost:8080"
       - npm run serve:radar
+
+  docker:build:
+    desc: 'Build the tech radar Docker image'
+    cmds:
+      - docker compose up lint-dockerfile --exit-code-from lint-dockerfile
+      - docker compose build
+
+  docker:run:
+    desc: 'Run the tech radar Docker image'
+    cmds:
+      - task: docker:build
+      - docker compose up radar --exit-code-from radar

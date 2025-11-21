@@ -40,3 +40,7 @@ repos:
         name: lint-repo
         language: script
         entry: /bin/bash -c 'task lint'
+      - id: build
+        name: build
+        language: script
+        entry: /bin/bash -c 'task docker:build'
