@@ -52,13 +52,13 @@ tasks:
   radar:build:
     desc: 'Build the tech radar from YAML data files'
     cmds:
-      - task: cleanup
       - npm install
       - npm run build:radar
 
   radar:run:
     desc: 'Build and serve the tech radar on http://localhost:8080'
     cmds:
+      - task: cleanup
       - task: radar:build
       - echo "Starting web server on http://localhost:8080"
       - npm run serve:radar
