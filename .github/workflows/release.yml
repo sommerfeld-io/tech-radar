@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: List contents
         run: ls -alF radar/public
         shell: bash
@@ -40,7 +40,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Setup Pages
         uses: actions/configure-pages@v5.0.0
       - name: Deploy to GitHub Pages
@@ -59,7 +59,7 @@ jobs:
         target-stage: ['run', 'yaml2json']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
