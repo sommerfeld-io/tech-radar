@@ -49,12 +49,6 @@
   ],
   "entries": [
     {
-      "label": "Grafana k6",
-      "quadrant": 3,
-      "ring": 2,
-      "link": "#grafana-k6"
-    },
-    {
       "label": "Vagrant",
       "quadrant": 3,
       "ring": 1,
@@ -97,12 +91,6 @@
       "link": "#ansible"
     },
     {
-      "label": "Chef Inspec",
-      "quadrant": 3,
-      "ring": 0,
-      "link": "#chef-inspec"
-    },
-    {
       "label": "Prometheus",
       "quadrant": 3,
       "ring": 0,
@@ -127,22 +115,22 @@
       "link": "#taskfile-task"
     },
     {
-      "label": "Dependabot",
-      "quadrant": 3,
-      "ring": 0,
-      "link": "#dependabot"
-    },
-    {
       "label": "Arch Linux",
       "quadrant": 2,
-      "ring": 2,
+      "ring": 3,
       "link": "#arch-linux"
     },
     {
       "label": "Kubernetes",
       "quadrant": 2,
-      "ring": 2,
+      "ring": 1,
       "link": "#kubernetes"
+    },
+    {
+      "label": "Talos",
+      "quadrant": 2,
+      "ring": 1,
+      "link": "#talos"
     },
     {
       "label": "ArgoCD",
@@ -177,7 +165,7 @@
     {
       "label": "GitHub Pages",
       "quadrant": 2,
-      "ring": 0,
+      "ring": 1,
       "link": "#github-pages"
     },
     {
@@ -195,13 +183,13 @@
     {
       "label": "GitOps",
       "quadrant": 1,
-      "ring": 1,
+      "ring": 2,
       "link": "#gitops"
     },
     {
       "label": "Continuous Integration & Continuous Delivery",
       "quadrant": 1,
-      "ring": 1,
+      "ring": 0,
       "link": "#continuous-integration-&-continuous-delivery"
     },
     {
@@ -257,6 +245,24 @@
       "quadrant": 0,
       "ring": 0,
       "link": "#github-copilot"
+    },
+    {
+      "label": "Grafana k6",
+      "quadrant": 0,
+      "ring": 2,
+      "link": "#grafana-k6"
+    },
+    {
+      "label": "Chef Inspec",
+      "quadrant": 0,
+      "ring": 0,
+      "link": "#chef-inspec"
+    },
+    {
+      "label": "Dependabot",
+      "quadrant": 0,
+      "ring": 0,
+      "link": "#dependabot"
     }
   ]
 }
