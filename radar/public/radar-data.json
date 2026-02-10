@@ -63,13 +63,13 @@
     {
       "label": "Loki",
       "quadrant": 3,
-      "ring": 1,
+      "ring": 3,
       "link": "#loki"
     },
     {
       "label": "Grafana Alloy",
       "quadrant": 3,
-      "ring": 1,
+      "ring": 0,
       "link": "#grafana-alloy"
     },
     {
@@ -93,26 +93,20 @@
     {
       "label": "Prometheus",
       "quadrant": 3,
-      "ring": 0,
+      "ring": 3,
       "link": "#prometheus"
     },
     {
       "label": "Grafana",
       "quadrant": 3,
-      "ring": 0,
+      "ring": 3,
       "link": "#grafana"
     },
     {
-      "label": "GitHub Actions",
+      "label": "Grafana Cloud",
       "quadrant": 3,
-      "ring": 0,
-      "link": "#github-actions"
-    },
-    {
-      "label": "Taskfile (Task)",
-      "quadrant": 3,
-      "ring": 0,
-      "link": "#taskfile-task"
+      "ring": 1,
+      "link": "#grafana-cloud"
     },
     {
       "label": "Arch Linux",
@@ -129,7 +123,7 @@
     {
       "label": "Talos",
       "quadrant": 2,
-      "ring": 1,
+      "ring": 2,
       "link": "#talos"
     },
     {
@@ -141,7 +135,7 @@
     {
       "label": "SonarCloud",
       "quadrant": 2,
-      "ring": 2,
+      "ring": 1,
       "link": "#sonarcloud"
     },
     {
@@ -169,6 +163,12 @@
       "link": "#github-pages"
     },
     {
+      "label": "GitHub Actions",
+      "quadrant": 2,
+      "ring": 0,
+      "link": "#github-actions"
+    },
+    {
       "label": "DockerHub",
       "quadrant": 2,
       "ring": 0,
@@ -183,7 +183,7 @@
     {
       "label": "GitOps",
       "quadrant": 1,
-      "ring": 2,
+      "ring": 1,
       "link": "#gitops"
     },
     {
@@ -263,6 +263,12 @@
       "quadrant": 0,
       "ring": 0,
       "link": "#dependabot"
+    },
+    {
+      "label": "Taskfile (Task)",
+      "quadrant": 0,
+      "ring": 0,
+      "link": "#taskfile-task"
     }
   ]
 }
