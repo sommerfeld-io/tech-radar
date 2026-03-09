@@ -133,7 +133,7 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USER }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Docker Scout - CVE Scan
-        uses: docker/scout-action@v1.18.2
+        uses: docker/scout-action@v1.20.2
         with:
           command: cves
           image: ${{ env.REGISTRY }}/${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_LATEST }}${{ steps.tag-suffix.outputs.suffix }}
