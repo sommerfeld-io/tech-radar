@@ -130,7 +130,7 @@ jobs:
             version=${{ github.sha }}
             org.opencontainers.image.licenses=MIT
       - name: Build the Docker image and push to registry
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           target: ${{ matrix.target-stage }}
