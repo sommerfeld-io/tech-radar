@@ -11,24 +11,30 @@ includes:
 
 tasks:
 
+  cleanup:filesystem:
+    desc: Cleanup the filesystem for this project
+    cmds:
+      - rm -rf .cache
+      - rm -rf node_modules
+      - rm -rf target
+      - find . -type f -exec chmod ugo+r {} +
+      - find . -type d -exec chmod 755 {} +
+      - find . -name "*.sh" -type f -exec chmod +x {} +
+
   cleanup:
-    desc: 'Cleanup the environment'
+    desc: Cleanup the development environment for this project
     cmds:
       - docker compose down --remove-orphans
       - docker container prune -f
       - docker volume prune -f
-      - rm -rf .cache
-      - rm -rf node_modules
-      - rm -rf target
-      - find . -type f -exec chmod +r {} +
-      - find . -type d -exec chmod +r {} +
-      - find . -name "*.sh" -type f -exec chmod +x {} +
+      - task: cleanup:filesystem
 
   # ===============================================================================================
 
   lint:
     desc: 'Run all project linters outside of Dockerfile linters'
     cmds:
+      - task: cleanup:filesystem
       - for: ['yaml', 'filenames', 'folders', 'dockerfile'] # , 'workflows', 'markdown-links'
         cmd: docker compose up lint-{{ .ITEM }} --exit-code-from lint-{{ .ITEM }}
 
