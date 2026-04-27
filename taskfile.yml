@@ -40,6 +40,14 @@ tasks:
 
   # ===============================================================================================
 
+  copilot:lint-and-fix:
+    desc: 'Use GitHub Copilot to lint and fix issues in the project'
+    cmds:
+      - task: cleanup
+      - copilot --allow-all --prompt "/lint-and-fix"
+
+  # ===============================================================================================
+
   radar:build:
     desc: 'Build the tech radar'
     cmds:
