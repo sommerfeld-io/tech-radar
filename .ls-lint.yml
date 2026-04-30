@@ -48,6 +48,8 @@ ignore:
 
   - .task
 
+  - .github/skills/.markdownlint.yml
+
   # linter definitions etc.
   - .editorconfig
   - .hadolint.yml
