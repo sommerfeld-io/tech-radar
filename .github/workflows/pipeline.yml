@@ -87,8 +87,7 @@ jobs:
           version: 3.x
       - name: Run task to build radar
         run: |
-          export TASK_X_REMOTE_TASKFILES=1
-          task radar:build --yes
+          task radar:build
           ls -alF
           ls -alF radar/public
         shell: bash
