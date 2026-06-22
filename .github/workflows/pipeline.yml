@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
       - name: Login to Container Registry
@@ -53,7 +53,7 @@ jobs:
         linter: ['yaml', 'workflows', 'filenames', 'folders', 'markdown-links', 'dockerfile']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
       - name: Login to Container Registry
@@ -78,7 +78,7 @@ jobs:
     ]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
       - name: Install Task
@@ -110,7 +110,7 @@ jobs:
         target-stage: ['run', 'yaml2json']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           submodules: true
       - name: Set up Docker Buildx
@@ -254,7 +254,7 @@ jobs:
         target-stage: ['run', 'yaml2json']
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Remove ${{ env.IMAGE_NAME }}:${{ github.sha }}-${{ matrix.target-stage }} images from registry
         env:
           DOCKERHUB_USER: ${{ secrets.DOCKERHUB_USER }}
