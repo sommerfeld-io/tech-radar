@@ -1,4 +1,4 @@
-FROM sommerfeldio/devcontainer:0.23.0
+FROM sommerfeldio/devcontainer:0.26.0
 LABEL maintainer="sebastian@sommerfeld.io"
 
 # Switch to root to install Node.js
