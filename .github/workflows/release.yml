@@ -156,7 +156,7 @@ jobs:
           organization: ${{ secrets.DOCKERHUB_USER }}
       - name: Upload SARIF result
         id: upload-sarif
-        uses: github/codeql-action/upload-sarif@v4.37.8
+        uses: github/codeql-action/upload-sarif@v4.37.9
         with:
           sarif_file: sarif-output.json
           category: 'Docker Scout CVEs - ${{ secrets.DOCKERHUB_USER }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG_LATEST }}${{ steps.tag-suffix.outputs.suffix }}'
