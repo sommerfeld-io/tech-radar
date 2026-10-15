@@ -38,6 +38,9 @@ rings:
 
 technologies:
   # Infrastructure
+  - name: "DigitalOcean"
+    quadrant: "Infrastructure"
+    ring: "Trial"
   - name: "Vagrant"
     quadrant: "Infrastructure"
     ring: "Trial"
@@ -70,6 +73,9 @@ technologies:
     ring: "Adopt"
 
   # Platforms
+  - name: "OpenTofu"
+    quadrant: "Platforms"
+    ring: "Trial"
   - name: "Arch Linux"
     quadrant: "Platforms"
     ring: "Hold"
