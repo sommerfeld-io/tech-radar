@@ -49,6 +49,12 @@
   ],
   "entries": [
     {
+      "label": "DigitalOcean",
+      "quadrant": 3,
+      "ring": 1,
+      "link": "#digitalocean"
+    },
+    {
       "label": "Vagrant",
       "quadrant": 3,
       "ring": 1,
@@ -105,8 +111,14 @@
     {
       "label": "Grafana Cloud",
       "quadrant": 3,
-      "ring": 1,
+      "ring": 0,
       "link": "#grafana-cloud"
+    },
+    {
+      "label": "OpenTofu",
+      "quadrant": 2,
+      "ring": 1,
+      "link": "#opentofu"
     },
     {
       "label": "Arch Linux",
@@ -159,7 +171,7 @@
     {
       "label": "GitHub Pages",
       "quadrant": 2,
-      "ring": 1,
+      "ring": 0,
       "link": "#github-pages"
     },
     {
@@ -243,8 +255,26 @@
     {
       "label": "GitHub Copilot",
       "quadrant": 0,
-      "ring": 0,
+      "ring": 1,
       "link": "#github-copilot"
+    },
+    {
+      "label": "Claude Code",
+      "quadrant": 0,
+      "ring": 1,
+      "link": "#claude-code"
+    },
+    {
+      "label": "Caude Code",
+      "quadrant": 0,
+      "ring": 1,
+      "link": "#caude-code"
+    },
+    {
+      "label": "BMAD",
+      "quadrant": 0,
+      "ring": 1,
+      "link": "#bmad"
     },
     {
       "label": "Grafana k6",
